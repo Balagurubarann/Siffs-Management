@@ -20,6 +20,7 @@ class Staff(BaseModel):
     staff_name = db.Column(db.String(64), nullable=False)
     address = db.Column(db.Text, nullable=False)
     phone = db.Column(db.Integer(10), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     level = db.Column(Enum(StaffLevel), default=StaffLevel.LEVEL_ONE)
     
     createdAt = db.Column(db.Date, server_default=func.now())
@@ -37,7 +38,7 @@ class Staff(BaseModel):
             "staff_name": self.staff_name,
             "address": self.address,
             "phone": self.phone,
-            "level": self.level,
+            "level": self.level.value,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt
         }

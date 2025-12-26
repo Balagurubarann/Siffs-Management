@@ -34,7 +34,7 @@ class Product(BaseModel):
             "id": self.id,
             "productNo": self.productNo,
             "productName": self.productName,
-            "productType": self.productType,
+            "productType": self.productType.value,
             "staff_id": self.staff_id,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt
