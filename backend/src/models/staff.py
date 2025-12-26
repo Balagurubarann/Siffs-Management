@@ -2,6 +2,7 @@ from src.extension import db
 from random import randint
 from enum import Enum
 from . import BaseModel
+from sqlalchemy.sql import func
 
 stf_no = randint(1000, 9999)
 
@@ -20,6 +21,9 @@ class Staff(BaseModel):
     address = db.Column(db.Text, nullable=False)
     phone = db.Column(db.Integer(10), unique=True, nullable=False)
     level = db.Column(Enum(StaffLevel), default=StaffLevel.LEVEL_ONE)
+    
+    createdAt = db.Column(db.Date, server_default=func.now())
+    updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 
     def __repr__(self):
         
@@ -33,5 +37,7 @@ class Staff(BaseModel):
             "staff_name": self.staff_name,
             "address": self.address,
             "phone": self.phone,
-            "level": self.level
+            "level": self.level,
+            "createdAt": self.createdAt,
+            "updatedAt": self.updatedAt
         }
