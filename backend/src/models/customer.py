@@ -14,7 +14,7 @@ class Customer(BaseModel):
     customerNo = db.Column(db.String(15), unique=True, default=f"cust_{cust_no}")
     customerName = db.Column(db.String(64), nullable=False)
     address = db.Column(db.Text, nullable=False)
-    phone = db.Column(db.Integer(10), unique=True, nullable=False)
+    phone = db.Column(db.String(16), unique=True, nullable=False)
     isMember = db.Column(Boolean, default=True)
     balance = db.Column(Numeric(10, 2), default=0.00)
     separateACCBal = db.Column(Numeric(10, 2), default=0.00)
@@ -30,7 +30,7 @@ class Customer(BaseModel):
 
     def __repr__(self):
         
-        return f"<Customer{self.id}"
+        return f"<Customer{self.id}>"
     
     def to_dict(self):
 

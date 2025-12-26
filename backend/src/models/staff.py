@@ -3,10 +3,11 @@ from random import randint
 from enum import Enum
 from . import BaseModel
 from sqlalchemy.sql import func
+from sqlalchemy import Enum as SqlEnum
 
 stf_no = randint(1000, 9999)
 
-class StaffLevel:
+class StaffLevel(Enum):
 
     LEVEL_ONE = "LEVEL_ONE"
     LEVEL_TWO = "LEVEL_TWO"
@@ -16,12 +17,12 @@ class Staff(BaseModel):
 
     __tablename__ = "staffs"
 
-    staff_no = db.Column(db.String(10), unique=True, default=f"stf_{stf_no}")
-    staff_name = db.Column(db.String(64), nullable=False)
+    staffNo = db.Column(db.String(10), unique=True, default=f"stf_{stf_no}")
+    staffName = db.Column(db.String(64), nullable=False)
     address = db.Column(db.Text, nullable=False)
-    phone = db.Column(db.Integer(10), unique=True, nullable=False)
+    phone = db.Column(db.String(16), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    level = db.Column(Enum(StaffLevel), default=StaffLevel.LEVEL_ONE)
+    level = db.Column(SqlEnum(StaffLevel, names=("staff_level_enum")), default=StaffLevel.LEVEL_ONE)
     
     createdAt = db.Column(db.Date, server_default=func.now())
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
@@ -34,8 +35,8 @@ class Staff(BaseModel):
 
         return {
             "id": self.id,
-            "staff_no": self.staff_no,
-            "staff_name": self.staff_name,
+            "staffNo": self.staffNo,
+            "staffName": self.staffName,
             "address": self.address,
             "phone": self.phone,
             "level": self.level.value,

@@ -2,9 +2,10 @@ from . import BaseModel
 from .staff import Staff
 from src.extension import db
 from sqlalchemy.sql import func
+from sqlalchemy import Enum as SqlEnum
 from enum import Enum
 
-class ProductType:
+class ProductType(Enum):
 
     FISH = "FISH"
     CRAB = "CRAB"
@@ -15,7 +16,7 @@ class Product(BaseModel):
 
     productNo = db.Column(db.Integer(4), nullable=False)
     productName = db.Column(db.String(128), nullable=False)
-    productType = db.Column(Enum(ProductType), nullable=False)
+    productType = db.Column(SqlEnum(ProductType, names=("product_type_enum")), nullable=False)
 
     createdAt = db.Column(db.Date, server_default=func.now())
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
