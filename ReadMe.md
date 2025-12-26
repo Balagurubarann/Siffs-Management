@@ -1,0 +1,1 @@
+Application specially designed for managing the customer's account, products, stocks, bills and transactions.
