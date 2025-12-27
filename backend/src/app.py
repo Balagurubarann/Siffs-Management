@@ -1,6 +1,7 @@
 from flask import Flask
 from .extension import db
 from .routes.staff_route import staffRoute
+from .routes.customer_route import customerRoute
 
 # App Creation
 def create_app():
@@ -12,6 +13,8 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(staffRoute)
+    app.register_blueprint(customerRoute)
+
 
     with app.app_context():
 

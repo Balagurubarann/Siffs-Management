@@ -25,8 +25,8 @@ class Customer(BaseModel):
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 
     # Foreign Key
-    staff_id = db.Column(db.String(40), db.ForeignKey(Staff.id), primary_key=True)
-    staff = db.relationship('Staff', foreign_keys='Customer.staff_id')
+    staffId = db.Column(db.String(40), db.ForeignKey(Staff.id), primary_key=True)
+    staff = db.relationship('Staff', foreign_keys='Customer.staffId')
 
     def __repr__(self):
         
@@ -47,5 +47,5 @@ class Customer(BaseModel):
             "creditAmount": self.creditAmount,
             "createdAt": self.createdAt,
             "updatedAt": self.updatedAt,
-            "staff_id": self.staff
+            "staffId": self.staffId
         }
