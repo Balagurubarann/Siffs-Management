@@ -14,6 +14,8 @@ class ProductType(Enum):
 
 class Product(BaseModel):
 
+    __tablename__ = "products"
+
     productNo = db.Column(db.String(6), nullable=False)
     productName = db.Column(db.String(128), nullable=False)
     productType = db.Column(SqlEnum(ProductType, names=("product_type_enum")), nullable=False)
