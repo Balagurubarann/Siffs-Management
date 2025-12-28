@@ -1,13 +1,15 @@
 # Staff Creation Logic goes here
+
 from flask import request, Blueprint, jsonify
 from src.models.staff import Staff
 from src.extension import db
 from bcrypt import gensalt, hashpw
-from flask_jwt_extended import jwt_required
+from src.middleware import staff_required
 
 staffRoute = Blueprint("staff", __name__, url_prefix="/api/staff")
 
 @staffRoute.route("/create", methods=['POST'])
+@staff_required("LEVEL_THREE")
 def createNewStaff():
 
     try:

@@ -61,7 +61,39 @@ def customerLogin():
 
     try:
 
-        pass
+        data = request.get_json()
+
+        phone = data["phone"]
+        password = data["password"]
+
+        if not phone or not password:
+
+            return jsonify({
+                "message": "All fields are required",
+                "success": False
+            }), 400
+        
+        existingCustomer = Customer.query.filter_by(phone=phone).first()
+        authCustomer = checkpw(password.encode("utf-8"), existingCustomer.password)
+
+        if not existingCustomer or not authCustomer:
+
+            return jsonify({
+                "message": "Incorrect phone or password",
+                "success": False
+            }), 401
+        
+        access_token = create_access_token(identity=existingCustomer.id)
+
+        response = jsonify({
+            "message": "Logged in successfully",
+            "success": True,
+            "customer": existingCustomer.to_dict()
+        })
+
+        set_access_cookies(response, access_token)
+
+        return response
 
     except Exception as Ex:
 
