@@ -7,12 +7,37 @@ from src.models.staff import Staff
 
 authRoute = Blueprint("auth", __name__, url_prefix="/api/auth")
 
-@authRoute.route("/staff-login", methods=["POST"])
+@authRoute.route("/staff/login", methods=["POST"])
 def staffLogin():
 
     try:
 
-        pass
+        data = request.get_json
+
+        phone = data["phone"]
+        password = data["password"]
+
+        if not phone or not password:
+
+            return jsonify({
+                "message": "All fields are required",
+                "success": False
+            }), 400
+        
+        existingStaff = Staff.query.filter_by(phone=phone).first_or_404()
+
+        if not existingStaff:
+
+            return jsonify({
+                "message": "Incorrect phone or password",
+                "success": False
+            }), 404
+
+        return jsonify({
+            "message": "Logged in successfully",
+            "success": True,
+            "staff": existingStaff.to_dict()
+        }), 200
 
     except Exception as Ex:
 
@@ -22,7 +47,7 @@ def staffLogin():
             "success": False
         }), 500
     
-@authRoute.route("/customer-login", methods=["POST"])
+@authRoute.route("/customer/login", methods=["POST"])
 def customerLogin():
 
     try:

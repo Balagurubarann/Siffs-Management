@@ -3,6 +3,7 @@
 from flask import jsonify, Blueprint, request
 from src.extension import db
 from src.models.customer import Customer
+from bcrypt import gensalt, hashpw
 
 customerRoute = Blueprint("customer", __name__, url_prefix="/api/customer")
 
@@ -15,6 +16,7 @@ def createNewCustomer():
 
         customerName = data["customerName"]
         address = data["address"]
+        dateOfBirth = data["dateOfBirth"]
         phone = data["phone"]
         isMember = data["isMember"]
         balance = data["balance"]
@@ -24,7 +26,7 @@ def createNewCustomer():
         staffId = data["staffId"]
 
 
-        if not customerName or not address or not phone or not isMember:
+        if not customerName or not address or not phone or not isMember or not dateOfBirth:
 
             return jsonify({
                 "message": "Customer personal details are required",
@@ -58,10 +60,18 @@ def createNewCustomer():
                 "success": False
             }), 409
         
+        if not password:
+
+            password = "".join(dateOfBirth.split("-"))
+
+        hashedPassword = hashpw(password, gensalt(12))
+        
         customer = Customer(
             customerName=customerName,
             address=address,
+            dateOfBirth=dateOfBirth,
             phone=phone,
+            password=hashedPassword,
             isMember=isMember,
             balance=balance,
             separateACCBal=separateACCBal,
@@ -75,7 +85,8 @@ def createNewCustomer():
 
         return jsonify({
             "message": "Customer created successfully",
-            "success": True
+            "success": True,
+            "customer": customer.to_dict()
         }), 201
 
     except Exception as Ex:

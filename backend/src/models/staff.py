@@ -20,6 +20,7 @@ class Staff(BaseModel):
     staffNo = db.Column(db.String(10), unique=True, default=f"stf_{stf_no}")
     staffName = db.Column(db.String(64), nullable=False)
     address = db.Column(db.Text, nullable=False)
+    dateOfBirth = db.Column(db.Date, nullable=False)
     phone = db.Column(db.String(16), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     level = db.Column(SqlEnum(StaffLevel, names=("staff_level_enum")), default=StaffLevel.LEVEL_ONE)
@@ -38,6 +39,7 @@ class Staff(BaseModel):
             "staffNo": self.staffNo,
             "staffName": self.staffName,
             "address": self.address,
+            "dateOfBirth": self.dateOfBirth,
             "phone": self.phone,
             "level": self.level.value,
             "createdAt": self.createdAt,
