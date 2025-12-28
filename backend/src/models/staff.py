@@ -1,7 +1,7 @@
 from src.extension import db
 from random import randint
 from enum import Enum
-from . import BaseModel
+from .Base import BaseModel
 from sqlalchemy.sql import func
 from sqlalchemy import Enum as SqlEnum
 
@@ -22,9 +22,9 @@ class Staff(BaseModel):
     address = db.Column(db.Text, nullable=False)
     dateOfBirth = db.Column(db.Date, nullable=False)
     phone = db.Column(db.String(16), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.LargeBinary, nullable=False)
     level = db.Column(SqlEnum(StaffLevel, names=("staff_level_enum")), default=StaffLevel.LEVEL_ONE)
-    
+
     createdAt = db.Column(db.Date, server_default=func.now())
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 

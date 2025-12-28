@@ -2,7 +2,7 @@ from src.extension import db
 from random import randint
 from sqlalchemy import Boolean, Numeric
 from sqlalchemy.sql import func
-from . import BaseModel
+from .Base import BaseModel
 from .staff import Staff
 
 cust_no = randint(1000, 99999)
@@ -16,12 +16,12 @@ class Customer(BaseModel):
     address = db.Column(db.Text, nullable=False)
     dateOfBirth = db.Column(db.Date, nullable=False)
     phone = db.Column(db.String(16), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.LargeBinary, nullable=False)
     isMember = db.Column(Boolean, default=True)
-    balance = db.Column(Numeric(10, 2), default=0.00)
-    separateACCBal = db.Column(Numeric(10, 2), default=0.00)
-    continuousACCBal = db.Column(Numeric(10, 2), default=0.00)
-    creditAmount = db.Column(Numeric(10, 2), default=0.00)
+    balance = db.Column(Numeric(10, 2), default=0)
+    separateACCBal = db.Column(Numeric(10, 2), default=0)
+    continuousACCBal = db.Column(Numeric(10, 2), default=0)
+    creditAmount = db.Column(Numeric(10, 2), default=0)
 
     createdAt = db.Column(db.Date, server_default=func.now())
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())

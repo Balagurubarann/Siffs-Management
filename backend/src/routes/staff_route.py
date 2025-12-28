@@ -3,7 +3,7 @@ from flask import request, Blueprint, jsonify
 from src.models.staff import Staff
 from src.extension import db
 from bcrypt import gensalt, hashpw
-
+from flask_jwt_extended import jwt_required
 
 staffRoute = Blueprint("staff", __name__, url_prefix="/api/staff")
 
@@ -12,7 +12,7 @@ def createNewStaff():
 
     try:
 
-        data = request.get_json
+        data = request.get_json()
 
         staffName = data["staffName"]
         address = data["address"]
@@ -43,14 +43,15 @@ def createNewStaff():
 
             password = "".join(dateOfBirth.split("-"))
 
-        hashedPassword = hashpw(password, gensalt(12))
+        hashedPassword = hashpw(password.encode("utf-8"), gensalt(12))
 
         staff = Staff(
             staffName=staffName,
             address=address,
             phone=phone,
             password=hashedPassword,
-            staffLevel=staffLevel
+            level=staffLevel,
+            dateOfBirth=dateOfBirth
         )
 
         db.session.add(staff)

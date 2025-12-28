@@ -4,6 +4,8 @@ from flask import jsonify, request, Blueprint
 from src.extension import db
 from src.models.customer import Customer
 from src.models.staff import Staff
+from bcrypt import checkpw
+from flask_jwt_extended import create_access_token, set_access_cookies
 
 authRoute = Blueprint("auth", __name__, url_prefix="/api/auth")
 
@@ -12,7 +14,7 @@ def staffLogin():
 
     try:
 
-        data = request.get_json
+        data = request.get_json()
 
         phone = data["phone"]
         password = data["password"]
@@ -25,19 +27,26 @@ def staffLogin():
             }), 400
         
         existingStaff = Staff.query.filter_by(phone=phone).first_or_404()
+        authStaff = checkpw(password.encode("utf-8"), existingStaff.password)
 
-        if not existingStaff:
+        if not existingStaff or not authStaff:
 
             return jsonify({
                 "message": "Incorrect phone or password",
                 "success": False
-            }), 404
+            }), 401
+        
+        access_token = create_access_token(identity=existingStaff.id)
 
-        return jsonify({
+        response = jsonify({
             "message": "Logged in successfully",
             "success": True,
             "staff": existingStaff.to_dict()
-        }), 200
+        })
+
+        set_access_cookies(response, access_token)
+
+        return response
 
     except Exception as Ex:
 

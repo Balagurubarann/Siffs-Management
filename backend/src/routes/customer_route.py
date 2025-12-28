@@ -1,30 +1,35 @@
 # Customer Creation Logic goes here
 
-from flask import jsonify, Blueprint, request
+from flask import jsonify, Blueprint, request, g
 from src.extension import db
 from src.models.customer import Customer
 from bcrypt import gensalt, hashpw
+from src.middleware import staff_required
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 customerRoute = Blueprint("customer", __name__, url_prefix="/api/customer")
 
 @customerRoute.route('/create', methods=['POST'])
+@staff_required("LEVEL_TWO")
 def createNewCustomer():
 
     try:
 
-        data = request.get_json
+        staff = g.current_staff
+
+        data = request.get_json()
 
         customerName = data["customerName"]
         address = data["address"]
         dateOfBirth = data["dateOfBirth"]
         phone = data["phone"]
+        password = data["password"]
         isMember = data["isMember"]
         balance = data["balance"]
         separateACCBal = data["separateACCBal"]
         continuousACCBal = data["continuousACCBal"]
         creditAmount = data["creditAmount"]
-        staffId = data["staffId"]
-
+        staffId = staff.id
 
         if not customerName or not address or not phone or not isMember or not dateOfBirth:
 
@@ -33,7 +38,7 @@ def createNewCustomer():
                 "success": False
             }), 400
         
-        if not balance or not separateACCBal or not continuousACCBal or not creditAmount:
+        if balance is None or separateACCBal is None or continuousACCBal is None or  creditAmount is None:
 
             return jsonify({
                 "message": "All account balance must be filled",
@@ -64,7 +69,7 @@ def createNewCustomer():
 
             password = "".join(dateOfBirth.split("-"))
 
-        hashedPassword = hashpw(password, gensalt(12))
+        hashedPassword = hashpw(password.encode("utf-8"), gensalt(12))
         
         customer = Customer(
             customerName=customerName,

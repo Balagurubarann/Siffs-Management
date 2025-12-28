@@ -1,4 +1,4 @@
-from . import BaseModel
+from .Base import BaseModel
 from .staff import Staff
 from src.extension import db
 from sqlalchemy.sql import func
@@ -14,7 +14,7 @@ class ProductType(Enum):
 
 class Product(BaseModel):
 
-    productNo = db.Column(db.Integer(4), nullable=False)
+    productNo = db.Column(db.String(6), nullable=False)
     productName = db.Column(db.String(128), nullable=False)
     productType = db.Column(SqlEnum(ProductType, names=("product_type_enum")), nullable=False)
     price = db.Column(Numeric(10, 2), nullable=False)
