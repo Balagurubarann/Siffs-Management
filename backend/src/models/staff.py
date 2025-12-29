@@ -28,8 +28,8 @@ class Staff(BaseModel):
     createdAt = db.Column(db.Date, server_default=func.now())
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 
-    # customers = db.relationship("Customer", backref="staff", cascade="all, delete-orphan")
-    # products = db.relationship("Product", backref="staff", cascade="all, delete-orphan")
+    customer = db.relationship("Customer", back_populates="staff", cascade="all, delete-orphan")
+    product = db.relationship("Product", back_populates="staff", cascade="all, delete-orphan")
 
     def __repr__(self):
         
