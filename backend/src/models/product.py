@@ -16,8 +16,8 @@ class Product(BaseModel):
 
     __tablename__ = "products"
 
-    productNo = db.Column(db.String(6), nullable=False)
-    productName = db.Column(db.String(128), nullable=False)
+    productNo = db.Column(db.String(6), nullable=False, unique=True)
+    productName = db.Column(db.String(128), nullable=False, unique=True)
     productType = db.Column(SqlEnum(ProductType, names=("product_type_enum")), nullable=False)
     price = db.Column(Numeric(10, 2), nullable=False)
 
@@ -25,8 +25,8 @@ class Product(BaseModel):
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 
     # Foreign Key
-    staff_id = db.Column(db.String(40), db.ForeignKey(Staff.id), primary_key=True)
-    staff = db.relationship("Staff", foreign_keys="Product.staff_id")
+    staffId = db.Column(db.String(40), db.ForeignKey(Staff.id, ondelete="CASCADE"), primary_key=True)
+    staff = db.relationship("Staff", foreign_keys="Product.staffId")
 
     def __repr__(self):
 

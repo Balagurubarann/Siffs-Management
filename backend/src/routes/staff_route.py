@@ -72,3 +72,35 @@ def createNewStaff():
             "message": "Error Happened while adding!",
             "success": False
         }), 500
+    
+@staffRoute.route("/remove/<string:id>", methods=["DELETE"])
+@staff_required("LEVEL_ONE")
+def removeStaff(id: str):
+
+    try:
+
+        staff = Staff.query.get(id)
+
+        if not staff:
+
+            return jsonify({
+                "message": "Staff not found",
+                "success": False
+            }), 404
+        
+        db.session.delete(staff)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Staff removed successfully",
+            "success": True
+        }), 200
+
+    except Exception as Ex:
+
+        print("Error happened while deleting staff:", Ex)
+        return jsonify({
+            "message": "Error Happened while deleting!",
+            "success": False
+        }), 500
+

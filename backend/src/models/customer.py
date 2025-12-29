@@ -27,7 +27,7 @@ class Customer(BaseModel):
     updatedAt = db.Column(db.Date, server_default=func.now(), onupdate=func.now())
 
     # Foreign Key
-    staffId = db.Column(db.String(40), db.ForeignKey(Staff.id), primary_key=True)
+    staffId = db.Column(db.String(40), db.ForeignKey(Staff.id, ondelete="CASCADE"), primary_key=True)
     staff = db.relationship('Staff', foreign_keys='Customer.staffId')
 
     def __repr__(self):

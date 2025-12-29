@@ -25,7 +25,7 @@ def staff_required(level):
             if not staff:
 
                 return jsonify({
-                    "message": "User not found",
+                    "message": "Staff not found. Login required",
                     "success": False
                 }), 404
             
