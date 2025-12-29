@@ -100,3 +100,41 @@ def createNewCustomer():
             "message": "Error Happened while adding customer",
             "success": False
         }), 500
+
+@customerRoute.route('/remove/<string:id>', methods=['DELETE'])
+@staff_required("LEVEL_THREE")
+def removeCustomer(id: str):
+
+    try:
+
+        if not id:
+
+            return jsonify({
+                "message": "Customer ID not found",
+                "success": False
+            }), 404
+
+        customer = Customer.query.get(id)
+
+        if not customer:
+
+            return jsonify({
+                "message": "No customer found!",
+                "success": False
+            }), 404
+        
+        db.session.delete(customer)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Customer removed successfully!",
+            "success": True
+        }), 200
+
+    except Exception as Ex:
+
+        print("Error Happened while removing customer: ", Ex)
+        return jsonify({
+            "message": "Error Happened while removing customer",
+            "success": False
+        }), 500

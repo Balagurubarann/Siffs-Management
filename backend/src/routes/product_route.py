@@ -67,3 +67,41 @@ def createNewProduct():
             "message": "Error Happened while adding product",
             "success": False
         }), 500
+    
+@productRoute.route('/remove/<string:id>', methods=['DELETE'])
+@staff_required("LEVEL_THREE")
+def removeCustomer(id: str):
+
+    try:
+
+        if not id:
+
+            return jsonify({
+                "message": "Product ID not found",
+                "success": False
+            }), 404
+
+        product = Product.query.get(id)
+
+        if not product:
+
+            return jsonify({
+                "message": "No product found!",
+                "success": False
+            }), 404
+        
+        db.session.delete(product)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Product removed successfully!",
+            "success": True
+        }), 200
+
+    except Exception as Ex:
+
+        print("Error Happened while removing product: ", Ex)
+        return jsonify({
+            "message": "Error Happened while removing product",
+            "success": False
+        }), 500

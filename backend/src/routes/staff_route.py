@@ -9,7 +9,7 @@ from src.middleware import staff_required
 staffRoute = Blueprint("staff", __name__, url_prefix="/api/staff")
 
 @staffRoute.route("/create", methods=['POST'])
-# @staff_required("LEVEL_THREE")
+@staff_required("LEVEL_THREE")
 def createNewStaff():
 
     try:
