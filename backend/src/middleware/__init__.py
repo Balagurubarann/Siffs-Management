@@ -1,1 +1,1 @@
-from .verifyUser import staff_required
+from .verifyUser import staff_required, customer_required

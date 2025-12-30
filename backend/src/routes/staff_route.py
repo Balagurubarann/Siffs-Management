@@ -74,10 +74,17 @@ def createNewStaff():
         }), 500
     
 @staffRoute.route("/remove/<string:id>", methods=["DELETE"])
-@staff_required("LEVEL_ONE")
+@staff_required("LEVEL_THREE")
 def removeStaff(id: str):
 
     try:
+
+        if not id:
+
+            return jsonify({
+                "message": "No staff ID found",
+                "success": False
+            }), 404
 
         staff = Staff.query.get(id)
 
@@ -103,4 +110,5 @@ def removeStaff(id: str):
             "message": "Error Happened while deleting!",
             "success": False
         }), 500
+
 
