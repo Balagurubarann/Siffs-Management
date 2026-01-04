@@ -5,12 +5,13 @@ from src.extension import db
 from src.models.customer import Customer
 from bcrypt import gensalt, hashpw
 from src.middleware import staff_required, customer_required
+from src.utils import JSONReponse
 
 customerRoute = Blueprint("customer", __name__, url_prefix="/api/customer")
 
 @customerRoute.route('/create', methods=['POST'])
 @staff_required("LEVEL_TWO")
-def createNewCustomer():
+def createNewCustomer() -> JSONReponse:
 
     try:
 
@@ -90,7 +91,7 @@ def createNewCustomer():
         return jsonify({
             "message": "Customer created successfully",
             "success": True,
-            "customer": customer.to_dict()
+            "data": customer.to_dict()
         }), 201
 
     except Exception as Ex:
@@ -103,7 +104,7 @@ def createNewCustomer():
 
 @customerRoute.route('/remove/<string:id>', methods=['DELETE'])
 @staff_required("LEVEL_THREE")
-def removeCustomer(id: str):
+def removeCustomer(id: str) -> JSONReponse:
 
     try:
 
@@ -141,7 +142,7 @@ def removeCustomer(id: str):
     
 @customerRoute.route("/update/<string:id>", methods=["PUT"])
 @staff_required("LEVEL_TWO")
-def updateCustomer(id: str):
+def updateCustomer(id: str) -> JSONReponse:
 
     try:
 
@@ -226,7 +227,7 @@ def updateCustomer(id: str):
 
 @customerRoute.route("/profile/<string:id>", methods=["POST", "GET"])
 @customer_required
-def viewProfile(id: str):
+def viewProfile(id: str) -> JSONReponse:
 
     try:
 
@@ -258,7 +259,7 @@ def viewProfile(id: str):
         return jsonify({
             "message": "Profile fetched",
             "success": True,
-            "customer": customer.to_dict()
+            "data": customer.to_dict()
         }), 200
 
     except Exception as Ex:

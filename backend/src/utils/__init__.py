@@ -1,0 +1,1 @@
+from .responseType import JSONReponse

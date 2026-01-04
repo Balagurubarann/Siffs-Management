@@ -5,12 +5,13 @@ from src.middleware import staff_required
 from src.models import Product
 from src.extension import db
 from sqlalchemy import or_
+from src.utils import JSONReponse
 
 productRoute = Blueprint("product", __name__, url_prefix="/api/product")
 
 @productRoute.route("/create", methods=["POST"])
 @staff_required("LEVEL_THREE")
-def createNewProduct():
+def createNewProduct() -> JSONReponse:
 
     try:
 
@@ -57,7 +58,7 @@ def createNewProduct():
         return jsonify({
             "message": "Product added successfully",
             "success": True,
-            "product": product.to_dict()
+            "data": product.to_dict()
         }), 201
 
     except Exception as Ex:
@@ -70,7 +71,7 @@ def createNewProduct():
     
 @productRoute.route('/remove/<string:id>', methods=['DELETE'])
 @staff_required("LEVEL_THREE")
-def removeCustomer(id: str):
+def removeCustomer(id: str) -> JSONReponse:
 
     try:
 

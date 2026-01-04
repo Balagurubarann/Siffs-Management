@@ -6,11 +6,12 @@ from src.models.customer import Customer
 from src.models.staff import Staff
 from bcrypt import checkpw
 from flask_jwt_extended import create_access_token, set_access_cookies
+from src.utils import JSONReponse
 
 authRoute = Blueprint("auth", __name__, url_prefix="/api/auth")
 
 @authRoute.route("/staff/login", methods=["POST"])
-def staffLogin():
+def staffLogin() -> JSONReponse:
 
     try:
 
@@ -41,7 +42,7 @@ def staffLogin():
         response = jsonify({
             "message": "Logged in successfully",
             "success": True,
-            "staff": existingStaff.to_dict()
+            "data": existingStaff.to_dict()
         })
 
         set_access_cookies(response, access_token)
@@ -57,7 +58,7 @@ def staffLogin():
         }), 500
     
 @authRoute.route("/customer/login", methods=["POST"])
-def customerLogin():
+def customerLogin() -> JSONReponse:
 
     try:
 
@@ -88,7 +89,7 @@ def customerLogin():
         response = jsonify({
             "message": "Logged in successfully",
             "success": True,
-            "customer": existingCustomer.to_dict()
+            "data": existingCustomer.to_dict()
         })
 
         set_access_cookies(response, access_token)
