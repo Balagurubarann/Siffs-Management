@@ -140,29 +140,30 @@ def removeCustomer(id: str) -> JSONReponse:
             "success": False
         }), 500
     
-@customerRoute.route("/update/<string:id>", methods=["PUT"])
-@staff_required("LEVEL_TWO")
-def updateCustomer(id: str) -> JSONReponse:
+@customerRoute.route("/update-profile", methods=["PUT"])
+@customer_required
+def updateCustomer() -> JSONReponse:
 
     try:
 
-        if not id:
+        customerId: str = g.current_customer
+
+        if not customerId:
 
             return jsonify({
                 "message": "Customer ID not found",
                 "success": False
             }), 404
-
-        customer = Customer.query.get(id)
+        
+        customer = Customer.query.get(customerId)
 
         if not customer:
 
             return jsonify({
-                "message": "No customer found!",
+                "message": "Customer not found",
                 "success": False
             }), 404
         
-        staff = g.current_staff
         data = request.get_json()
 
         customerName = data["customerName"]
@@ -170,58 +171,34 @@ def updateCustomer(id: str) -> JSONReponse:
         dateOfBirth = data["dateOfBirth"]
         phone = data["phone"]
         password = data["password"]
-        isMember = data["isMember"]
-        balance = data["balance"]
-        separateACCBal = data["separateACCBal"]
-        continuousACCBal = data["continuousACCBal"]
-        creditAmount = data["creditAmount"]
-        staffId = staff.id
 
-        if not customerName or not address or not phone or not isMember or not dateOfBirth or not password:
+        if not customerName or not address or not dateOfBirth or not phone or not password:
 
             return jsonify({
-                "message": "Customer personal details are required",
+                "message": "Personal details are required",
                 "success": False
             }), 400
         
-        if balance is None or separateACCBal is None or continuousACCBal is None or  creditAmount is None:
-
-            return jsonify({
-                "message": "All account balance must be filled",
-                "success": False
-            }), 400
-        
-        if not staffId:
-
-            return jsonify({
-                "message": "Staff ID not found. Please login again",
-                "success": False
-            }), 400
+        hashedPassword = hashpw(password.encode("utf-8"), gensalt(12))
         
         customer.customerName = customerName
         customer.address = address
         customer.dateOfBirth = dateOfBirth
         customer.phone = phone
-        customer.password = password
-        customer.isMember = isMember
-        customer.balance = balance
-        customer.separateACCBal = separateACCBal
-        customer.continuousACCBal = continuousACCBal
-        customer.creditAmount = creditAmount
-        customer.staffId = staffId
+        customer.password = hashedPassword
 
         db.session.commit()
 
         return jsonify({
-            "message": "Customer updated successfully!",
+            "message": "Customer Profile updated!",
             "success": True
         }), 200
 
     except Exception as Ex:
 
-        print("Error Happened while updating customer: ", Ex)
+        print("Error Happened while updating profile: ", Ex)
         return jsonify({
-            "message": "Error Happened while updating customer",
+            "message": "Error Happened while updating profile",
             "success": False
         }), 500
 
