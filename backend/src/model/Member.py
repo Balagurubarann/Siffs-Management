@@ -1,9 +1,8 @@
-from src.extension import db
 from .User import User
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
-import uuid
+from sqlalchemy.dialects.postgresql import PG_UUID
+from uuid import UUID
 from random import randint
 
 def generate_random_id() -> int:
@@ -13,8 +12,8 @@ class Member(User):
 
     __tablename__ = "members"
 
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    user_id: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
         ForeignKey("users.id"),
         primary_key=True
     )
@@ -24,4 +23,10 @@ class Member(User):
         nullable=False,
         unique=True,
         default=lambda: str(generate_random_id())
+    )
+
+    created_by: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("staffs.id"),
+        primary_key=True
     )

@@ -2,7 +2,7 @@ from src.extension import db
 from uuid import UUID, uuid4
 from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import PG_UUID
 from sqlalchemy import DateTime
 
 class Base(db.Model):
@@ -10,7 +10,7 @@ class Base(db.Model):
     __abstract__ = True
 
     id: Mapped[UUID] = mapped_column(
-        UUID(as_uuid=True),
+        PG_UUID(as_uuid=True),
         primary_key=True,
         default=uuid4
     )

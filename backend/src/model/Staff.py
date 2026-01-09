@@ -1,8 +1,8 @@
 from .User import User
 from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy import String, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, ENUM
-import uuid
+from sqlalchemy.dialects.postgresql import PG_UUID, ENUM
+from uuid import UUID
 from random import randint
 import enum
 
@@ -17,8 +17,10 @@ class Level(enum.Enum):
 
 class Staff(User):
 
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    __tablename__ = "staffs"
+
+    user_id: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
         ForeignKey("users.id"),
         primary_key=True
     )
