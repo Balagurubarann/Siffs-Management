@@ -1,7 +1,7 @@
 from src.extension import db
 from .User import User
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from random import randint
@@ -15,7 +15,7 @@ class Member(User):
 
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        db.ForeignKey("users.id"),
+        ForeignKey("users.id"),
         primary_key=True
     )
 
