@@ -31,7 +31,8 @@ class Account(Base):
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
-        ForeignKey("members.id")
+        ForeignKey("members.id"),
+        nullable=False
     )   
 
     balance: Mapped[Decimal] = mapped_column(
@@ -52,6 +53,7 @@ class Account(Base):
 
     created_by: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
-        ForeignKey("staffs.id")
+        ForeignKey("staffs.id"),
+        nullable=False
     )
 
