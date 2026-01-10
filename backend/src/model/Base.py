@@ -2,7 +2,7 @@ from src.extension import db
 from uuid import UUID, uuid4
 from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.dialects.postgresql import PG_UUID
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy import DateTime
 
 class Base(db.Model):

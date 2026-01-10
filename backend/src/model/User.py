@@ -12,12 +12,13 @@ class Gender(enum.Enum):
 
 class User(Base):
 
-    __tablename__ = "users"
+    __abstract__ = True
 
     username: Mapped[str] = mapped_column(
         String(128),
         nullable=False
     )
+
     gender: Mapped[Gender] = mapped_column(
         Enum(
             Gender, 
@@ -27,24 +28,29 @@ class User(Base):
         nullable=False,
         default=Gender.MALE
     )
+
     dateOfBirth: Mapped[date] = mapped_column(
         Date,
         nullable=False
     )
+
     address: Mapped[str] = mapped_column(
         Text,
         nullable=False
     )
+
     phoneNo: Mapped[str] = mapped_column(
         String(10),
         nullable=False,
         unique=True
     )
+
     email: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
         unique=True
     )
+
     password: Mapped[str] = mapped_column(
         Text,
         nullable=False

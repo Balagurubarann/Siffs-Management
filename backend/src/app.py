@@ -1,8 +1,7 @@
 from flask import Flask
 from .extension import db
 from flask_jwt_extended import JWTManager
-
-from .routes import customerRoute, authRoute, staffRoute
+from .routes import staffRoute
 
 # App Creation
 def create_app():
@@ -15,8 +14,6 @@ def create_app():
     JWTManager(app)
 
     app.register_blueprint(staffRoute)
-    app.register_blueprint(customerRoute)
-    app.register_blueprint(authRoute)
 
     with app.app_context():
 

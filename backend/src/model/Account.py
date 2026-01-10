@@ -1,7 +1,7 @@
 from .Base import Base
 from sqlalchemy.orm import mapped_column, Mapped
-from sqlalchemy import String, ForeignKey, Numeric, UniqueConstraint
-from sqlalchemy.dialects.postgresql import PG_UUID, ENUM
+from sqlalchemy import String, ForeignKey, Numeric
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from random import randint
 from enum import Enum
 from uuid import UUID
@@ -31,8 +31,7 @@ class Account(Base):
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
-        ForeignKey("member.id"),
-        primary_key=True
+        ForeignKey("members.id")
     )   
 
     balance: Mapped[Decimal] = mapped_column(
@@ -56,6 +55,3 @@ class Account(Base):
         ForeignKey("staffs.id")
     )
 
-    __table_args__ = (
-        UniqueConstraint("holder_id", name="unq_holder_id")
-    )

@@ -5,12 +5,24 @@ from src.utils import JSONReponse
 
 staffRoute = Blueprint("staff", __name__, url_prefix="/api/staff")
 
-@staffRoute.route("/add-member", methods=["POST"])
+@staffRoute.route("/member/add", methods=["POST"])
 def createNewMember():
 
-    pass
+    try:
 
-@staffRoute.route("/add-staff", methods=["POST"])
+        data = request.get_json()
+
+        
+
+    except Exception as Ex:
+
+        print("Error happened while adding new member: ", Ex)
+        return jsonify({
+            "message": "Error happened while adding new member",
+            "success": False
+        }), 500
+
+@staffRoute.route("/add", methods=["POST"])
 def createNewStaff():
 
     pass
