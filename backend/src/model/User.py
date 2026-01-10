@@ -47,14 +47,7 @@ class User(Base):
     )
 
     password: Mapped[str] = mapped_column(
-        Text,
+        String(255),
         nullable=False
     )
 
-    @validates("username")
-    def validate_username(self, key, value):
-
-        if len(value) < 3:
-            raise ValueError("Username must contains atleast 3 characters!")
-        
-        return value

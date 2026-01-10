@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from src.extension import db
 from src.model import Member, Staff
-from bcrpyt import checkpw
-from flask_jwt_extended import create_access_token, set_access_cookie
+from flask_jwt_extended import create_access_token, set_access_cookies
 from src.utils import JSONReponse
+from werkzeug.security import check_password_hash
 
 authRoute: Blueprint = Blueprint(
     "auth",
@@ -39,7 +39,7 @@ def memberLogin() -> JSONReponse:
                 "success": False
             }), 401
         
-        authUser = checkpw(password.encode("utf-8"), existingMember.password)
+        authUser = check_password_hash(existingMember.password, password)
 
         if not authUser:
 
@@ -55,15 +55,15 @@ def memberLogin() -> JSONReponse:
             "success": True
         })
 
-        set_access_cookie(response, access_token)
+        set_access_cookies(response, access_token)
 
         return response, 200
 
     except Exception as Ex:
 
-        print("Error happened while login: ", Ex)
+        print("Error happened while member login: ", Ex)
         return jsonify({
-            "message": "Error happened while login",
+            "message": "Error happened while member login",
             "success": False
         }), 500
     
@@ -94,8 +94,8 @@ def staffLogin() -> JSONReponse:
                 "message": "Incorrect email or password",
                 "success": False
             }), 401
-        
-        authStaff = checkpw(password.encode("utf-8"), existingStaff.password)
+                
+        authStaff = check_password_hash(existingStaff.password, password)
 
         if not authStaff:
 
@@ -111,14 +111,14 @@ def staffLogin() -> JSONReponse:
             "success": True
         })
 
-        set_access_cookie(response, access_token)
+        set_access_cookies(response, access_token)
 
         return response, 200
 
     except Exception as Ex:
 
-        print("Error happened while login: ", Ex)
+        print("Error happened while staff login: ", Ex)
         return jsonify({
-            "message": "Error happened while login",
+            "message": "Error happened while staff login",
             "success": False
         }), 500

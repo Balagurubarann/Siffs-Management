@@ -1,7 +1,7 @@
 from flask import Flask
-from .extension import db
+from .extension import db, mail
 from flask_jwt_extended import JWTManager
-from .routes import staffRoute
+from .routes import staffRoute, authRoute
 
 # App Creation
 def create_app():
@@ -12,8 +12,10 @@ def create_app():
 
     db.init_app(app)
     JWTManager(app)
+    mail.init_app(app)
 
     app.register_blueprint(staffRoute)
+    app.register_blueprint(authRoute)
 
     with app.app_context():
 

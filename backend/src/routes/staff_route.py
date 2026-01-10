@@ -3,8 +3,9 @@ from src.extension import db
 from src.model import Staff
 from src.utils import JSONReponse, Gender
 from datetime import date
-from sqlalchemy import or_
-from bcrypt import hashpw, gensalt
+from src.utils import generate_password
+from src.mailer.service import send_welcome_mail
+from werkzeug.security import generate_password_hash
 
 staffRoute = Blueprint(
     "staff", 
@@ -47,22 +48,32 @@ def createNewStaff() -> JSONReponse:
                 "missed_fields": ",".join(missing)
             }), 400
 
-        existingPhoneOrEmail = db.select(Staff).where(
-            or_(
-                Staff.email == email,
-                Staff.phoneNo == phoneNo
-            )
-        )
+        existingPhone = Staff.query.filter_by(
+            phoneNo=phoneNo
+        ).first()
 
-        if existingPhoneOrEmail:
+        if existingPhone:
 
             return jsonify({
-                "message": "Staff Email or Phone number already exists",
+                "message": "Staff Phone number already exists",
                 "success": False
             }), 409
         
-        hashed_password = hashpw("123456".encode("utf-8"), gensalt(12))
+        existingEmail = Staff.query.filter_by(
+            email=email
+        ).first()
+
+        if existingEmail:
+
+            return jsonify({
+                "message": "Staff Email already exists",
+                "success": False
+            }), 409
+
+        password = generate_password()
         
+        hashed_password = generate_password_hash(password)
+
         staff = Staff(
             username=username,
             gender=gender.value,
@@ -76,6 +87,12 @@ def createNewStaff() -> JSONReponse:
 
         db.session.add(staff)
         db.session.commit()
+
+        send_welcome_mail(
+            to_email=email,
+            username=username,
+            password=password
+        )
 
         return jsonify({
             "message": "Staff created successfully",

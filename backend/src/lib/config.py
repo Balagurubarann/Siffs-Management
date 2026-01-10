@@ -4,14 +4,14 @@ from datetime import timedelta
 
 load_dotenv()
 
-# DB Configuration
+# DB CONFIGURATION
 
 DATABASE_URI = os.getenv("DATABASE_URI")
 
 SQLALCHEMY_DATABASE_URI = DATABASE_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-# JWT Configuration
+# JWT CONFIGURATION
 
 JWT_SECRET = os.getenv("JWT_SECRET_KEY")
 
@@ -21,3 +21,12 @@ JWT_COOKIE_CSRF_PROTECT = False
 
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=7)
+
+# MAIL CONFIGURATION
+
+MAIL_SERVER = "smtp.gmail.com"
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER")
