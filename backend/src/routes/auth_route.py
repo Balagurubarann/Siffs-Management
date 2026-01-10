@@ -38,7 +38,7 @@ def memberLogin():
                 "success": False
             }), 401
         
-        authUser = checkpw(password, existingMember.password)
+        authUser = checkpw(password.encode("utf-8"), existingMember.password)
 
         if not authUser:
 
@@ -56,7 +56,7 @@ def memberLogin():
 
         set_access_cookie(response, access_token)
 
-        return response
+        return response, 200
 
     except Exception as Ex:
 
@@ -71,7 +71,48 @@ def staffLogin():
 
     try:
 
-        pass
+        data =  request.get_json()
+
+        email = data["email"]
+        password = data["password"]
+
+        if not email or not password:
+
+            return jsonify({
+                "message": "All fields are required",
+                "success": False
+            }), 400
+
+        existingStaff = Staff.query.filter_by(
+            email=email
+        ).first()
+
+        if not existingStaff:
+
+            return jsonify({
+                "message": "Incorrect email or password",
+                "success": False
+            }), 401
+        
+        authStaff = checkpw(password.encode("utf-8"), existingStaff.password)
+
+        if not authStaff:
+
+            return jsonify({
+                "message": "Incorrect email or password",
+                "success": False
+            }), 401
+        
+        access_token = create_access_token(identity=existingStaff.id)
+
+        response = jsonify({
+            "message": "Logged in successful",
+            "success": True
+        })
+
+        set_access_cookie(response, access_token)
+
+        return response, 200
 
     except Exception as Ex:
 

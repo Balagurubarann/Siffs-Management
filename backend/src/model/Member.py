@@ -25,3 +25,9 @@ class Member(User):
         nullable=False
     )
 
+    def to_dict(self):
+
+        return {
+            
+        }
+
