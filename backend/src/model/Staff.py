@@ -4,16 +4,10 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from uuid import UUID
 from random import randint
-import enum
+from src.utils import Level
 
 def generate_random_id() -> int:
     return randint(100000, 999999)
-
-class Level(enum.Enum):
-
-    LEVEL_ONE="L1"
-    LEVEL_TWO="L2"
-    LEVEL_THREE="L3"
 
 class Staff(User):
 

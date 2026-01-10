@@ -3,22 +3,23 @@ from src.extension import db
 from src.model import Member, Staff
 from bcrpyt import checkpw
 from flask_jwt_extended import create_access_token, set_access_cookie
+from src.utils import JSONReponse
 
-authRoute = Blueprint(
+authRoute: Blueprint = Blueprint(
     "auth",
     __name__,
     url_prefix="/api/auth"
 )
 
 @authRoute.route("/member/login", methods=["POST"])
-def memberLogin():
+def memberLogin() -> JSONReponse:
 
     try:
 
         data = request.get_json()
 
-        email = data["email"]
-        password = data["password"]
+        email: str = data["email"]
+        password: str = data["password"]
 
         if not email or not password:
 
@@ -67,14 +68,14 @@ def memberLogin():
         }), 500
     
 @authRoute.route("/staff/login", methods=["POST"])
-def staffLogin():
+def staffLogin() -> JSONReponse:
 
     try:
 
         data =  request.get_json()
 
-        email = data["email"]
-        password = data["password"]
+        email: str = data["email"]
+        password: str = data["password"]
 
         if not email or not password:
 

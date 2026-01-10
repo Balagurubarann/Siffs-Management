@@ -3,12 +3,7 @@ from sqlalchemy.orm import mapped_column, Mapped, validates
 from sqlalchemy import String, Text, Enum, Date
 import enum
 from datetime import date
-
-class Gender(enum.Enum):
-
-    MALE = "male"
-    FEMALE = "female"
-    OTHERS = "others"
+from src.utils import Gender
 
 class User(Base):
 
