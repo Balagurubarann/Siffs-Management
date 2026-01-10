@@ -3,15 +3,18 @@
 <body>
     
     <h4>Welcome, {{ username }}!</h4>
-    <p>Thanks for joining <b>SIFFS</b></p>
+    <p>Thanks for joining <b>SIFFS</b>!</p>
 
     <p>
         Your temporary password:
-        <b>{{ password }}</b>
     </p>
 
-    <p>
-        ** Once logged in, please change your password **
+    <p style="padding: 12px 24px; border-radius: 12px; background-color: rgba(255, 255, 255, .5); font-weight: 600;">
+        {{ password }}
+    </p>
+
+    <p style="color: #ff0000">
+        ** Within 7 days, please change your password **
     </p>
 
 </body>
