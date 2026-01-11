@@ -91,7 +91,8 @@ def createNewStaff() -> JSONReponse:
         send_welcome_mail(
             to_email=email,
             username=username,
-            password=password
+            password=password,
+            role=f"{level} Staff"
         )
 
         return jsonify({

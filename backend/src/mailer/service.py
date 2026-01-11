@@ -9,7 +9,7 @@ def _send_async(app, msg):
 
         mail.send(msg)
 
-def send_welcome_mail(to_email, username, password):
+def send_welcome_mail(to_email, username, password, role):
 
     msg = Message(
         subject="Joining Confirmation - SIFFS",
@@ -19,7 +19,8 @@ def send_welcome_mail(to_email, username, password):
     msg.html = render_template(
         "email/welcome.html",
         username=username,
-        password=password
+        password=password,
+        role=role
     )
 
     Thread(

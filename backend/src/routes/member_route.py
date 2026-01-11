@@ -1,4 +1,4 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, g
 from src.model import Member
 from src.utils import JSONReponse
 from src.extension import db
@@ -7,14 +7,16 @@ from datetime import date
 from src.utils import generate_password
 from werkzeug.security import generate_password_hash
 from src.mailer.service import send_welcome_mail
+from src.middleware import least_staff_required
 
 memberRoute = Blueprint(
     "member",
     __name__,
-    url_prefix="api/member"
+    url_prefix="/api/member"
 )
 
 @memberRoute.route("/add", methods=["POST"])
+@least_staff_required("L2")
 def createNewMember() -> JSONReponse:
 
     try:
@@ -27,6 +29,15 @@ def createNewMember() -> JSONReponse:
         address: str = data["address"]
         phoneNo: str = data["phone"]
         email: str = data["email"]
+
+        staffId = g.current_staff
+
+        if not staffId:
+
+            return jsonify({
+                "message": "No staff found - login required",
+                "success": False
+            }), 404
 
         required_fields = {
             "username": username,
@@ -80,7 +91,8 @@ def createNewMember() -> JSONReponse:
             address=address,
             phoneNo=phoneNo,
             email=email,
-            password=hashed_password
+            password=hashed_password,
+            created_by=staffId
         )
 
         db.session.add(member)
@@ -89,7 +101,8 @@ def createNewMember() -> JSONReponse:
         send_welcome_mail(
             to_email=email,
             username=username,
-            password=password
+            password=password,
+            role="member"
         )
 
         return jsonify({

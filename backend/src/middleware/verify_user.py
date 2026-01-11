@@ -19,28 +19,40 @@ def least_staff_required(level: Level):
         @wraps(fn)
         def decorator(*args, **kwargs):
 
-            verify_jwt_in_request()
-            staffId = get_jwt_identity()
+            try:
 
-            staff = Staff.query.get(id=staffId)
+                verify_jwt_in_request()
+                staffId = get_jwt_identity()
 
-            if not staff:
+                staff = Staff.query.get(staffId)
+
+                if not staff:
+
+                    return jsonify({
+                        "message": "Staff not found! - Login required!",
+                        "success": False
+                    }), 404
+
+                if staffLevel[staff.level.value] < staffLevel[level]:
+
+                    return jsonify({
+                        "message": f"Staff level must be atleast {level}",
+                        "success": False
+                    }), 401
+                
+                g.current_staff = staff.id
+
+                return fn(*args, **kwargs)
+
+
+            except Exception as Ex:
+
+                print(Ex)
 
                 return jsonify({
-                    "message": "Staff not found! - Login required!",
+                    "message": "Something went wrong while verification",
                     "success": False
-                }), 404
-
-            if staffLevel[staff.level] < staffLevel[level]:
-
-                return jsonify({
-                    "message": f"Staff level must be atleast {level}",
-                    "success": False
-                }), 401
-            
-            g.current_staff = staff
-
-            return fn(*args, **kwargs)
+                }), 500
 
         return decorator
     
