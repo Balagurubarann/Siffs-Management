@@ -28,6 +28,12 @@ class Member(User):
     def to_dict(self):
 
         return {
-            
+            "username": self.username,
+            "gender": self.gender,
+            "dateOfBirth": self.dateOfBirth,
+            "address": self.address,
+            "phoneNo": self.phoneNo,
+            "email": self.email,
+            "member_id": self.member_id
         }
 

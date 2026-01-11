@@ -1,7 +1,6 @@
 from .Base import Base
 from sqlalchemy.orm import mapped_column, Mapped, validates
 from sqlalchemy import String, Text, Enum, Date
-import enum
 from datetime import date
 from src.utils import Gender
 

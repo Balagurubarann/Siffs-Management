@@ -29,3 +29,16 @@ class Staff(User):
         nullable=False,
         default=Level.LEVEL_ONE
     )
+
+    def to_dict(self):
+
+        return {
+            "username": self.username,
+            "gender": self.gender,
+            "dateOfBirth": self.dateOfBirth,
+            "address": self.address,
+            "phoneNo": self.phoneNo,
+            "email": self.email,
+            "staff_id": self.staff_id,
+            "level": self.level
+        }
