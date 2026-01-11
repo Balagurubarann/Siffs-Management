@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint, g
-from src.model import Member
+from src.model import Member, Account, SeparateSavingAccount, ContinuousSavingAccount, CreditAccount
 from src.utils import JSONReponse
 from src.extension import db
 from src.utils import Gender
@@ -104,6 +104,35 @@ def createNewMember() -> JSONReponse:
             password=password,
             role="member"
         )
+
+        account = Account(
+            holder_id=member.id,
+            created_by=staffId
+        )
+
+        db.session.add(account)
+        db.session.commit()
+
+        separateSavingAccount = SeparateSavingAccount(
+            holder_id=account.holder_id,
+            acc_no=account.acc_no,
+            created_by=staffId
+        )
+
+        continuousSavingAccount = ContinuousSavingAccount(
+            holder_id=member.id,
+            acc_no=account.acc_no,
+            created_by=staffId
+        )
+
+        creditAccount = CreditAccount(
+            holder_id=member.id,
+            acc_no=account.acc_no,
+            created_by=staffId
+        )
+
+        db.session.add_all([creditAccount, continuousSavingAccount, separateSavingAccount])
+        db.session.commit()
 
         return jsonify({
             "message": "Member created successfully",

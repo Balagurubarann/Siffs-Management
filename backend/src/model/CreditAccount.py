@@ -5,9 +5,9 @@ from uuid import UUID
 from decimal import Decimal
 from .Base import Base
 
-class SeparateSavingAccount(Base):
+class CreditAccount(Base):
 
-    __tablename__ = "separate_saving_account"
+    __tablename__ = "credit_account"
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
