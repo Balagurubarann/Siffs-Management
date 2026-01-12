@@ -103,6 +103,7 @@ def createNewStaff() -> JSONReponse:
     except Exception as Ex:
 
         print("Error happened while adding new staff: ", Ex)
+        db.session.rollback() 
         return jsonify({
             "message": "Error happened while adding new staff",
             "success": False

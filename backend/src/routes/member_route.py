@@ -6,14 +6,14 @@ from src.model import (
     ContinuousSavingAccount, 
     CreditAccount
 )
-from src.utils import JSONReponse
 from src.extension import db
-from src.utils import Gender
 from datetime import date
+from src.utils import JSONReponse
+from src.utils import Gender
 from src.utils import generate_password
-from werkzeug.security import generate_password_hash
 from src.mailer.service import send_welcome_mail
 from src.middleware import least_staff_required
+from werkzeug.security import generate_password_hash
 
 memberRoute = Blueprint(
     "member",
