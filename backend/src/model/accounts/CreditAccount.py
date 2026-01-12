@@ -3,25 +3,23 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import UUID
 from decimal import Decimal
-from .Base import Base
+from src.model.Base import Base
 
-class SeparateSavingAccount(Base):
+class CreditAccount(Base):
 
-    __tablename__ = "separate_saving_account"
+    __tablename__ = "credit_account"
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("members.id"),
-        primary_key=True,
-        index=True
+        primary_key=True
     )
 
     acc_no: Mapped[str] = mapped_column(
         String(20),
         ForeignKey("accounts.acc_no"),
         nullable=False,
-        unique=True,
-        index=True
+        unique=True
     )
 
     balance: Mapped[Decimal] = mapped_column(
@@ -33,8 +31,7 @@ class SeparateSavingAccount(Base):
     created_by: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("staffs.id"),
-        nullable=False,
-        index=True
+        nullable=False
     )
 
     member = relationship("Member", foreign_keys=[holder_id])

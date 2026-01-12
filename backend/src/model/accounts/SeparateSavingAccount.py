@@ -3,23 +3,25 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import UUID
 from decimal import Decimal
-from .Base import Base
+from src.model.Base import Base
 
-class ContinuousSavingAccount(Base):
+class SeparateSavingAccount(Base):
 
-    __tablename__ = "continuous_saving_account"
+    __tablename__ = "separate_saving_account"
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("members.id"),
-        primary_key=True
+        primary_key=True,
+        index=True
     )
 
     acc_no: Mapped[str] = mapped_column(
         String(20),
         ForeignKey("accounts.acc_no"),
         nullable=False,
-        unique=True
+        unique=True,
+        index=True
     )
 
     balance: Mapped[Decimal] = mapped_column(
@@ -31,7 +33,8 @@ class ContinuousSavingAccount(Base):
     created_by: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("staffs.id"),
-        nullable=False
+        nullable=False,
+        index=True
     )
 
     member = relationship("Member", foreign_keys=[holder_id])

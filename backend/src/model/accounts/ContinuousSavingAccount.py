@@ -3,11 +3,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import UUID
 from decimal import Decimal
-from .Base import Base
+from src.model.Base import Base
 
-class CreditAccount(Base):
+class ContinuousSavingAccount(Base):
 
-    __tablename__ = "credit_account"
+    __tablename__ = "continuous_saving_account"
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),

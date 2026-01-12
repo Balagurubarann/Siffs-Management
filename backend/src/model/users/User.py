@@ -1,4 +1,4 @@
-from .Base import Base
+from src.model.Base import Base
 from sqlalchemy.orm import mapped_column, Mapped, validates
 from sqlalchemy import String, Text, Enum, Date
 from datetime import date

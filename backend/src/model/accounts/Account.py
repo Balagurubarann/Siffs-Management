@@ -1,4 +1,4 @@
-from .Base import Base
+from src.model.Base import Base
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey, Numeric
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
