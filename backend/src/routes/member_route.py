@@ -1,5 +1,11 @@
 from flask import request, jsonify, Blueprint, g
-from src.model import Member, Account, SeparateSavingAccount, ContinuousSavingAccount, CreditAccount
+from src.model import (
+    Member, 
+    Account, 
+    SeparateSavingAccount, 
+    ContinuousSavingAccount, 
+    CreditAccount
+)
 from src.utils import JSONReponse
 from src.extension import db
 from src.utils import Gender
@@ -120,13 +126,13 @@ def createNewMember() -> JSONReponse:
         )
 
         continuousSavingAccount = ContinuousSavingAccount(
-            holder_id=member.id,
+            holder_id=account.holder_id,
             acc_no=account.acc_no,
             created_by=staffId
         )
 
         creditAccount = CreditAccount(
-            holder_id=member.id,
+            holder_id=account.holder_id,
             acc_no=account.acc_no,
             created_by=staffId
         )
@@ -142,6 +148,8 @@ def createNewMember() -> JSONReponse:
     except Exception as Ex:
 
         print("Error happened while adding new member: ", Ex)
+
+        db.session.rollback()        
         return jsonify({
             "message": "Error happened while adding new member",
             "success": False

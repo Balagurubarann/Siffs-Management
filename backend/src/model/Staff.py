@@ -1,5 +1,5 @@
 from .User import User
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from uuid import UUID
@@ -28,6 +28,24 @@ class Staff(User):
         ),
         nullable=False,
         default=Level.LEVEL_ONE
+    )
+
+    created_by: Mapped[UUID | None] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey(
+            "staffs.id",
+            ondelete="SET NULL",
+            name="fk_admin_created_by"
+        ),
+        nullable=True,
+        index=True
+    )
+
+    staff = relationship(
+        "Staff",
+        remote_side=[id],
+        foreign_keys=[created_by],
+        lazy="joined"
     )
 
     def to_dict(self):

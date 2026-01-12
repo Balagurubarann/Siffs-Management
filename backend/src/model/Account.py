@@ -1,5 +1,5 @@
 from .Base import Base
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, ForeignKey, Numeric
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from random import randint
@@ -31,8 +31,9 @@ class Account(Base):
 
     holder_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
-        ForeignKey("members.id"),
-        nullable=False
+        ForeignKey("members.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True
     )   
 
     balance: Mapped[Decimal] = mapped_column(
@@ -53,7 +54,10 @@ class Account(Base):
 
     created_by: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
-        ForeignKey("staffs.id"),
-        nullable=False
+        ForeignKey("staffs.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True
     )
 
+    member = relationship("Member", foreign_keys=[holder_id])
+    staff = relationship("Staff", foreign_keys=[created_by])

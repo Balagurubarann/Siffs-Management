@@ -33,3 +33,7 @@ class ContinuousSavingAccount(Base):
         ForeignKey("staffs.id"),
         nullable=False
     )
+
+    member = relationship("Member", foreign_keys=[holder_id])
+    staff = relationship("Staff", foreign_keys=[created_by])
+    account = relationship("Account", foreign_keys=[acc_no])
