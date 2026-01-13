@@ -1,10 +1,11 @@
 from .User import User
-from sqlalchemy.orm import mapped_column, Mapped, relationship
+from sqlalchemy.orm import mapped_column, Mapped, relationship, remote, foreign
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from uuid import UUID
 from random import randint
 from src.utils import Level
+from typing import List
 
 def generate_random_id() -> int:
     return randint(100000, 999999)
@@ -39,13 +40,6 @@ class Staff(User):
         ),
         nullable=True,
         index=True
-    )
-
-    staff = relationship(
-        "Staff",
-        remote_side=[id],
-        foreign_keys=[created_by],
-        lazy="joined"
     )
 
     def to_dict(self):

@@ -3,4 +3,5 @@ from flask_mail import Mail
 
 db = SQLAlchemy()
 
+# Mailer
 mail = Mail()

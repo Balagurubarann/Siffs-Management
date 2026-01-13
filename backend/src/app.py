@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from .routes import staffRoute, authRoute, memberRoute
 
 # App Creation
-def create_app():
+def _create_app():
 
     app = Flask(__name__)
 
@@ -24,3 +24,5 @@ def create_app():
         print("Database Connected Successfully!")
 
     return app
+
+app = _create_app()

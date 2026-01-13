@@ -27,3 +27,20 @@ def send_welcome_mail(to_email, username, password, role):
         target=_send_async,
         args=(current_app._get_current_object(), msg)
     ).start()
+
+def send_account_creation(to_email, username):
+
+    msg = Message(
+        subject="Accounts Creation Successful - SIFFS",
+        recipients=[to_email]
+    )
+
+    msg.html = render_template(
+        "email/accounts/account.html",
+        username=username
+    )
+
+    Thread(
+        target=_send_async,
+        args=(current_app._get_current_object(), msg)
+    ).start()

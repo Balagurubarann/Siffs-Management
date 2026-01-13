@@ -1,7 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from src.extension import db
 from src.model import Member, Staff
-from flask_jwt_extended import create_access_token, set_access_cookies
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from src.utils import JSONReponse
 from werkzeug.security import check_password_hash
 
@@ -86,7 +86,7 @@ def staffLogin() -> JSONReponse:
 
         existingStaff = Staff.query.filter_by(
             email=email
-        ).first()
+        ).first()   
 
         if not existingStaff:
 
@@ -122,3 +122,15 @@ def staffLogin() -> JSONReponse:
             "message": "Error happened while staff login",
             "success": False
         }), 500
+    
+@authRoute.route("/logout", methods=["POST"])
+def logout() -> JSONReponse:
+
+    response = jsonify({
+        "message": "Logged out successfully",
+        "success": True
+    })
+
+    unset_jwt_cookies(response)
+
+    return response, 200

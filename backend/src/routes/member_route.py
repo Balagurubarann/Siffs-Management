@@ -11,7 +11,7 @@ from datetime import date
 from src.utils import JSONReponse
 from src.utils import Gender
 from src.utils import generate_password
-from src.mailer.service import send_welcome_mail
+from src.mailer.service import send_welcome_mail, send_account_creation
 from src.middleware import least_staff_required
 from werkzeug.security import generate_password_hash
 
@@ -139,6 +139,11 @@ def createNewMember() -> JSONReponse:
 
         db.session.add_all([creditAccount, continuousSavingAccount, separateSavingAccount])
         db.session.commit()
+
+        send_account_creation(
+            to_email=email,
+            username=username
+        )
 
         return jsonify({
             "message": "Member created successfully",

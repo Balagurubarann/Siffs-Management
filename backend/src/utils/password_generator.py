@@ -3,6 +3,6 @@ from secrets import choice
 
 def generate_password() -> str:
 
-    characters = ascii_letters + digits
+    characters = "ABCDEFabcdef" + digits
 
     return "".join(choice(characters) for _ in range(10))
