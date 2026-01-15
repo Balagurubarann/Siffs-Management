@@ -1,1 +1,1 @@
-from .verify_user import least_staff_required
+from .verify_user import least_staff_required, member_required

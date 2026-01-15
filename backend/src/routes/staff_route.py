@@ -6,6 +6,7 @@ from datetime import date
 from src.utils import generate_password
 from src.mailer.service import send_welcome_mail
 from werkzeug.security import generate_password_hash
+from src.middleware import least_staff_required
 
 staffRoute = Blueprint(
     "staff", 
@@ -14,6 +15,7 @@ staffRoute = Blueprint(
 )
 
 @staffRoute.route("/add", methods=["POST"])
+@least_staff_required("L3")
 def createNewStaff() -> JSONReponse:
 
     try:

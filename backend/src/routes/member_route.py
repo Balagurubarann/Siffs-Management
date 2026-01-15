@@ -137,7 +137,11 @@ def createNewMember() -> JSONReponse:
             created_by=staffId
         )
 
-        db.session.add_all([creditAccount, continuousSavingAccount, separateSavingAccount])
+        db.session.add_all([
+            creditAccount, 
+            continuousSavingAccount, 
+            separateSavingAccount
+        ])
         db.session.commit()
 
         send_account_creation(
