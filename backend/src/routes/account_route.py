@@ -6,3 +6,5 @@ accountRoute = Blueprint(
     __name__,
     "/api/account"
 )
+
+

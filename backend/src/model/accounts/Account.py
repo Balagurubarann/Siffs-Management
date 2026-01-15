@@ -61,3 +61,7 @@ class Account(Base):
 
     member = relationship("Member", foreign_keys=[holder_id])
     staff = relationship("Staff", foreign_keys=[created_by])
+
+    def __repr__(self):
+
+        return f"<Account {self.acc_no}>"

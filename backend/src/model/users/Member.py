@@ -28,6 +28,10 @@ class Member(User):
 
     staff = relationship("Staff", foreign_keys=[created_by])
 
+    def __repr__(self):
+
+        return f"<Member {self.member_id}>"
+
     def to_dict(self):
 
         return {

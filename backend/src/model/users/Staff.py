@@ -42,6 +42,10 @@ class Staff(User):
         index=True
     )
 
+    def __repr__(self):
+
+        return f"<Staff {self.staff_id}>"
+
     def to_dict(self):
 
         return {

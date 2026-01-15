@@ -1,9 +1,9 @@
-from flask import Blueprint, request, jsonify, make_response
-from src.extension import db
+from flask import Blueprint, request, jsonify
 from src.model import Member, Staff
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from src.utils import JSONReponse
 from werkzeug.security import check_password_hash
+from logging import error
 
 authRoute: Blueprint = Blueprint(
     "auth",
@@ -61,7 +61,7 @@ def memberLogin() -> JSONReponse:
 
     except Exception as Ex:
 
-        print("Error happened while member login: ", Ex)
+        error("Error happened while member login: ", Ex)
         return jsonify({
             "message": "Error happened while member login",
             "success": False
@@ -117,7 +117,7 @@ def staffLogin() -> JSONReponse:
 
     except Exception as Ex:
 
-        print("Error happened while staff login: ", Ex)
+        error("Error happened while staff login: ", Ex)
         return jsonify({
             "message": "Error happened while staff login",
             "success": False
