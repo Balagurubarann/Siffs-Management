@@ -6,8 +6,8 @@ from src.model import (
     ContinuousSavingAccount, 
     CreditAccount
 )
-from src.extension import db
 from datetime import date
+from src.extension import db
 from src.utils import JSONReponse
 from src.utils import Gender
 from src.utils import generate_password
@@ -168,7 +168,7 @@ def createNewMember() -> JSONReponse:
 
 @memberRoute.route("/remove/<uuid:member_id>", methods=["delete"])
 @least_staff_required("L2")
-def removeStaff(member_id) -> JSONReponse:
+def removeMember(member_id) -> JSONReponse:
 
     try:
 
@@ -179,7 +179,21 @@ def removeStaff(member_id) -> JSONReponse:
                 "success": False
             }), 404
         
-        
+        member = db.session.get(Member, member_id)
+
+        if not member:
+
+            return jsonify({
+                "message": "No member found",
+                "success": False
+            }), 404
+
+        member.isActive = False
+
+        return jsonify({
+            "message": "Member removed successfully",
+            "success": True
+        }), 200
 
     except Exception as Ex:
 

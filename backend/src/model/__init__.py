@@ -6,3 +6,5 @@ from .accounts.SeparateSavingAccount import SeparateSavingAccount
 from .accounts.ContinuousSavingAccount import ContinuousSavingAccount
 from .accounts.CreditAccount import CreditAccount
 from .products.Product import Product
+from .stocks.Stock import Stock
+from .stocks.StockItem import StockItem

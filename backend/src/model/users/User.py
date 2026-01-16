@@ -1,6 +1,6 @@
 from src.model.Base import Base
 from sqlalchemy.orm import mapped_column, Mapped, validates
-from sqlalchemy import String, Text, Enum, Date
+from sqlalchemy import String, Text, Enum, Date, Integer
 from datetime import date
 from src.utils import Gender
 
@@ -28,8 +28,28 @@ class User(Base):
         nullable=False
     )
 
-    address: Mapped[str] = mapped_column(
+    addressLineOne: Mapped[str] = mapped_column(
         Text,
+        nullable=False
+    )
+    
+    addressLineTwo: Mapped[str] = mapped_column(
+        Text,
+        nullable=True
+    )
+
+    city: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
+
+    state: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    ),
+
+    pincode: Mapped[int] = mapped_column(
+        Integer,
         nullable=False
     )
 

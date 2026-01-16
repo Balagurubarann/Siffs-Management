@@ -42,6 +42,19 @@ class Staff(User):
         index=True
     )
 
+    deleted_by: Mapped[UUID | None] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey(
+            "staffs.id",
+            name="fk_admin_created_by"
+        ),
+        nullable=True,
+        index=True
+    )
+
+    creation = relationship("Staff", foreign_keys=[created_by])
+    deletion = relationship("Staff", foreign_keys=[deleted_by])
+
     def __repr__(self):
 
         return f"<Staff {self.staff_id}>"
@@ -52,9 +65,12 @@ class Staff(User):
             "username": self.username,
             "gender": self.gender,
             "dateOfBirth": self.dateOfBirth,
-            "address": self.address,
+            "address": self.addressLineOne + " " + self.addressLineTwo,
+            "city": self.city,
+            "state": self.state,
+            "pincode": self.pincode,
             "phoneNo": self.phoneNo,
             "email": self.email,
-            "staff_id": self.staff_id,
-            "level": self.level
+            "level": self.level,
+            "staff_id": self.staff_id
         }

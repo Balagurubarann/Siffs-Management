@@ -71,12 +71,30 @@ def addProduct():
 
     except Exception as Ex:
 
-            error("Error happened while try to adding new member: ", Ex)
+        error("Error happened while try to adding new product: ", Ex)
 
-            db.session.rollback()        
-            return jsonify({
-                "message": "Error happened while try to adding new member",
-                "success": False
-            }), 500
+        db.session.rollback()        
+        return jsonify({
+            "message": "Error happened while try to adding new product",
+            "success": False
+        }), 500
 
+@productRoute.route("/update-price/<uuid:product_id>", methods=["PUT"])
+@least_staff_required("L2")
+def updateProductPrice(product_id):
+     
+    try:
+          
+        data = request.get_json()
 
+        
+
+    except Exception as Ex:
+
+        error("Error happened while try to update price: ", Ex)
+
+        db.session.rollback()        
+        return jsonify({
+            "message": "Error happened while try to update price",
+            "success": False
+        }), 500  
