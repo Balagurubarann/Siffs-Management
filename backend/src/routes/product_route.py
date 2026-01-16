@@ -50,6 +50,7 @@ def addProduct():
                 "success": False
             }), 400
         
+        # New Product
         product = Product(
             product_id=product_id,
             product_name=product_name,

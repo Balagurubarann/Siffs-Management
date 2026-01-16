@@ -1,5 +1,5 @@
 from src.model.Base import Base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 from sqlalchemy.dialects.postgresql import ENUM, UUID as PG_UUID
 from sqlalchemy import String, Numeric, ForeignKey, Text
 from enum import Enum
@@ -69,5 +69,14 @@ class Product(Base):
             "updated_at": self.updated_at,
             "created_by": self.created_by
         }
+    
+    @validates
+    def validateProductName(productName: str) -> bool:
+
+        if len(productName) < 3:
+
+            return False
+        
+        return True
 
     

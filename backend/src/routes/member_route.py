@@ -89,6 +89,7 @@ def createNewMember() -> JSONReponse:
 
         password = generate_password()
         
+        # Hashing Password
         hashed_password = generate_password_hash(password)
 
         member = Member(
