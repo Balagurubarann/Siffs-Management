@@ -1,8 +1,9 @@
 from src.model.Base import Base
-from sqlalchemy import ForeignKey, Integer
+from sqlalchemy import ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import UUID
+from decimal import Decimal
 
 class StockItem(Base):
 
@@ -15,8 +16,8 @@ class StockItem(Base):
         index=True
     )
 
-    quantity: Mapped[int] = mapped_column(
-        Integer,
+    quantity: Mapped[Decimal] = mapped_column(
+        Numeric(10, 3),
         nullable=False
     )
 

@@ -54,4 +54,20 @@ class Product(Base):
         foreign_keys=[created_by]
     )
 
+    def __repr__(self):
+        
+        return f"<Product {self.product_id}>"
+    
+    def to_dict(self):
+
+        return {
+            "product_id": self.product_id,
+            "product_name": self.product_name,
+            "genre": self.genre,
+            "price": self.price,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "created_by": self.created_by
+        }
+
     

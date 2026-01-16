@@ -12,8 +12,9 @@ from src.utils import JSONReponse
 from src.utils import Gender
 from src.utils import generate_password
 from src.mailer.service import send_welcome_mail, send_account_creation
-from src.middleware import least_staff_required
+from src.middleware import least_staff_required, member_required
 from werkzeug.security import generate_password_hash
+from logging import error
 
 memberRoute = Blueprint(
     "member",
@@ -156,10 +157,11 @@ def createNewMember() -> JSONReponse:
 
     except Exception as Ex:
 
-        print("Error happened while adding new member: ", Ex)
+        error("Error happened while try to adding new member: ", Ex)
 
         db.session.rollback()        
         return jsonify({
-            "message": "Error happened while adding new member",
+            "message": "Error happened while try to adding new member",
             "success": False
         }), 500
+

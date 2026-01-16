@@ -11,6 +11,7 @@ authRoute: Blueprint = Blueprint(
     url_prefix="/api/auth"
 )
 
+# Member Login Functionality
 @authRoute.route("/member/login", methods=["POST"])
 def memberLogin() -> JSONReponse:
 
@@ -66,7 +67,8 @@ def memberLogin() -> JSONReponse:
             "message": "Error happened while member login",
             "success": False
         }), 500
-    
+
+# Staff Login Functionality  
 @authRoute.route("/staff/login", methods=["POST"])
 def staffLogin() -> JSONReponse:
 
@@ -122,7 +124,8 @@ def staffLogin() -> JSONReponse:
             "message": "Error happened while staff login",
             "success": False
         }), 500
-    
+
+# Logout Functionality
 @authRoute.route("/logout", methods=["POST"])
 def logout() -> JSONReponse:
 

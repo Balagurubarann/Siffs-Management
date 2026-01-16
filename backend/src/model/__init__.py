@@ -5,3 +5,4 @@ from .accounts.Account import Account
 from .accounts.SeparateSavingAccount import SeparateSavingAccount
 from .accounts.ContinuousSavingAccount import ContinuousSavingAccount
 from .accounts.CreditAccount import CreditAccount
+from .products.Product import Product

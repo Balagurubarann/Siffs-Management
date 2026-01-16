@@ -2,6 +2,7 @@ from flask import Flask
 from .extension import db, mail
 from flask_jwt_extended import JWTManager
 from .routes import staffRoute, authRoute, memberRoute
+from logging import info
 
 # App Creation
 def _create_app():
@@ -21,7 +22,7 @@ def _create_app():
     with app.app_context():
 
         db.create_all()
-        print("Database Connected Successfully!")
+        info("Database Connected Successfully!")
 
     return app
 
