@@ -166,13 +166,20 @@ def createNewMember() -> JSONReponse:
             "success": False
         }), 500
 
-@memberRoute.route("/remove", methods=["delete"])
+@memberRoute.route("/remove/<uuid:member_id>", methods=["delete"])
 @least_staff_required("L2")
-def removeStaff():
+def removeStaff(member_id) -> JSONReponse:
 
     try:
 
-        pass
+        if not member_id:
+
+            return jsonify({
+                "message": "No member id found",
+                "success": False
+            }), 404
+        
+        
 
     except Exception as Ex:
 

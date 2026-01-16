@@ -26,7 +26,15 @@ class Member(User):
         index=True
     )
 
-    staff = relationship("Staff", foreign_keys=[created_by])
+    deleted_by: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("staffs.id", ondelete="CASCADE"),
+        index=True,
+        nullable=True
+    )
+
+    creator = relationship("Staff", foreign_keys=[created_by])
+    destroyer = relationship("Staff", foreign_keys=[deleted_by])
 
     def __repr__(self):
 

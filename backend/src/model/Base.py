@@ -12,7 +12,8 @@ class Base(db.Model):
     id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         primary_key=True,
-        default=uuid4
+        default=uuid4,
+        index=True
     )
 
     created_at: Mapped[datetime] = mapped_column(
@@ -24,4 +25,10 @@ class Base(db.Model):
         DateTime,
         onupdate=datetime.utcnow,
         default=datetime.utcnow
+    )
+
+    deleted_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        ondelete=datetime.utcnow,
+        nullable=True
     )
