@@ -49,9 +49,20 @@ class Product(Base):
         index=True
     )
 
-    staff = relationship(
+    updated_by: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("staffs.id", ondelete="CASCADE"),
+        nullbale=False,
+        index=True
+    )
+
+    creation = relationship(
         "Staff",
         foreign_keys=[created_by]
+    )
+    updation = relationship(
+        "Staff",
+        foreign_keys=[updated_by]
     )
 
     def __repr__(self):
@@ -66,8 +77,9 @@ class Product(Base):
             "genre": self.genre,
             "price": self.price,
             "created_at": self.created_at,
+            "created_by": self.created_by,
             "updated_at": self.updated_at,
-            "created_by": self.created_by
+            "updated_by": self.updated_by
         }
     
     @validates
