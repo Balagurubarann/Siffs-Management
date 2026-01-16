@@ -9,7 +9,7 @@ accountRoute = Blueprint(
     "/api/account"
 )
 
-@accountRoute.route("/freeze", methods=["POST"])
+@accountRoute.route("/freeze", methods=["PUT"])
 @least_staff_required("L2")
 def freezeAccount():
 

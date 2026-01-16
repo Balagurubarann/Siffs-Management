@@ -166,3 +166,20 @@ def createNewMember() -> JSONReponse:
             "success": False
         }), 500
 
+@memberRoute.route("/remove", methods=["delete"])
+@least_staff_required("L2")
+def removeStaff():
+
+    try:
+
+        pass
+
+    except Exception as Ex:
+
+        error("Error happened while try to remove a member: ", Ex)
+
+        db.session.rollback()        
+        return jsonify({
+            "message": "Error happened while try to remove a member",
+            "success": False
+        }), 500  
