@@ -56,6 +56,13 @@ class Product(Base):
         index=True
     )
 
+    deleted_by: Mapped[UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("staffs.id", ondelete="CASCADE"),
+        nullbale=False,
+        index=True
+    )
+
     creation = relationship(
         "Staff",
         foreign_keys=[created_by]
@@ -63,6 +70,10 @@ class Product(Base):
     updation = relationship(
         "Staff",
         foreign_keys=[updated_by]
+    )
+    deletion = relationship(
+        "Staff",
+        foreign_keys=[deleted_by]
     )
 
     def __repr__(self):

@@ -77,7 +77,7 @@ def createNewStaff() -> JSONReponse:
         hashed_password = generate_password_hash(password)
 
         staff = Staff(
-            username=username,
+            username=username.rstrip(),
             gender=gender.value,
             dateOfBirth=dateOfBirth,
             address=address,

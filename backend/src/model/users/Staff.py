@@ -5,7 +5,6 @@ from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
 from uuid import UUID
 from random import randint
 from src.utils import Level
-from typing import List
 
 def generate_random_id() -> int:
     return randint(100000, 999999)
@@ -46,7 +45,18 @@ class Staff(User):
         PG_UUID(as_uuid=True),
         ForeignKey(
             "staffs.id",
-            name="fk_admin_created_by"
+            name="fk_admin_deleted_by"
+        ),
+        nullable=True,
+        index=True
+    )
+
+    updated_by: Mapped[UUID | None] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey(
+            "staffs.id",
+            ondelete="SET NULL",
+            name="fk_admin_updated_by"
         ),
         nullable=True,
         index=True
@@ -54,6 +64,7 @@ class Staff(User):
 
     creation = relationship("Staff", foreign_keys=[created_by])
     deletion = relationship("Staff", foreign_keys=[deleted_by])
+    updation = relationship("Staff", foreign_keys=[updated_by])
 
     def __repr__(self):
 
