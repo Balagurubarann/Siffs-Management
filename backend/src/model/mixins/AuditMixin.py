@@ -1,5 +1,7 @@
 from sqlalchemy.orm import mapped_column, Mapped, declarative_mixin, declared_attr
 from sqlalchemy import String, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from uuid import UUID
 
 @declarative_mixin
 class AuditMixin:
@@ -11,19 +13,19 @@ class AuditMixin:
     """
 
     @declared_attr
-    def created_by(cls) -> Mapped[str | None]:
+    def created_by(cls) -> Mapped[UUID | None]:
 
         return mapped_column(
-            String(36),
+            PG_UUID(as_uuid=True),
             ForeignKey("staffs.id"),
             nullable=True
         )
     
     @declared_attr
-    def deleted_by(cls) -> Mapped[str | None]:
+    def deleted_by(cls) -> Mapped[UUID | None]:
 
         return mapped_column(
-            String(36),
+            PG_UUID(as_uuid=True),
             ForeignKey("staffs.id"),
             nullable=True
         )
