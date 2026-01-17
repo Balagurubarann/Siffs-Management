@@ -17,7 +17,7 @@ class AuditMixin:
 
         return mapped_column(
             PG_UUID(as_uuid=True),
-            ForeignKey("staffs.id"),
+            ForeignKey("users.id"),
             nullable=True
         )
     
@@ -26,6 +26,6 @@ class AuditMixin:
 
         return mapped_column(
             PG_UUID(as_uuid=True),
-            ForeignKey("staffs.id"),
+            ForeignKey("users.id"),
             nullable=True
         )

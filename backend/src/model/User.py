@@ -53,19 +53,19 @@ class Gender(Enum):
 class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
 
     """  
-        Defines User model
-        - user_id (UUID)
-        - fullName
-        - email
-        - phoneNo 
-        - role
-        - address
-        - city
-        - state
-        - pincode
-        - status (Active/Suspended/Banned)
-        - gender (Male/Female/Others)
-        - password (Hashed password)
+        User Model
+        - user_id: uuid
+        - fullName: str
+        - email: str
+        - phoneNo: str
+        - role: enum(Admin/Staff_L1/Staff_L2/Member/Client)
+        - address: str
+        - city: str
+        - state: str
+        - pincode: str
+        - status enum(Active/Suspended/Banned)
+        - gender enum(Male/Female/Others)
+        - password: str
     """
 
     __tablename__ = "users"
