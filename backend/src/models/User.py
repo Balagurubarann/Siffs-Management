@@ -1,6 +1,9 @@
+"""  
+    Module reponsible for user schema
+"""
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM
+from sqlalchemy.dialects.postgresql import ENUM
 from .Base import Base
 from .mixins.AuditMixin import AuditMixin
 from .mixins.TimeStampMixin import TimeStampMixin
