@@ -29,19 +29,19 @@ class Account(Base, AuditMixin, TimeStampMixin, UUIDMixin):
 
     """  
         Account Model
-        - acc_no: str
-        - holder_id: uuid
-        - status: enum(Active/Frozen/Blocked)
-        - balance: decimal(15, 2)
-        - continuous_saving_balance: decimal(15, 2)
-        - separate_saving_balance: decimal(15, 2)
-        - credit_balance:  decimal(15, 2)
+        - acc_no
+        - holder_id
+        - status Active/Frozen/Blocked)
+        - balance
+        - continuous_saving_balance
+        - separate_saving_balance
+        - credit_balance
     """
 
     __tablename__ = "accounts"
 
     acc_no: Mapped[str] = mapped_column(
-        String(16),
+        String(255),
         nullable=False,
         unique=True,
         index=True

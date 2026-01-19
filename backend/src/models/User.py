@@ -57,18 +57,18 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
 
     """  
         User Model
-        - user_id: uuid
-        - fullName: str
-        - email: str
-        - phoneNo: str
-        - role: enum(Admin/Staff_L1/Staff_L2/Member/Client)
-        - address: str
-        - city: str
-        - state: str
-        - pincode: str
-        - status enum(Active/Suspended/Banned)
-        - gender enum(Male/Female/Others)
-        - password: str
+        - user_id
+        - fullName
+        - email
+        - phoneNo
+        - role (Admin/Staff_L1/Staff_L2/Member/Client)
+        - address
+        - city
+        - state
+        - pincode
+        - status (Active/Suspended/Banned)
+        - gender (Male/Female/Others)
+        - password
     """
 
     __tablename__ = "users"
@@ -149,4 +149,14 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
         String(255),
         nullable=False
     )
+
+    def to_dict(self):
+
+        return {
+            "fullName": self.fullName,
+            "email": self.email,
+            "phoneNo": self.phoneNo,
+            "role": self.role,
+            "gender": self.gender
+        }
     
