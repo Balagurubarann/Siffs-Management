@@ -4,7 +4,7 @@ from functools import wraps
 from src.utils import Level
 from flask import jsonify, g
 from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
-from src.model import Staff, Member
+from src.model import User
 from logging import error, info
 
 staffLevel = {
@@ -25,7 +25,7 @@ def least_staff_required(level: Level):
                 verify_jwt_in_request()
                 staffId = get_jwt_identity()
 
-                staff = Staff.query.get(staffId)
+                staff = User.query.get(staffId)
 
                 if not staff:
 
@@ -41,7 +41,10 @@ def least_staff_required(level: Level):
                         "success": False
                     }), 401
                 
-                g.current_staff = staff.id
+                g.current_staff = {
+                    "id": staff.id,
+                    "role": staff.role
+                }
 
                 return fn(*args, **kwargs)
 
@@ -78,7 +81,9 @@ def member_required():
                         "success": False
                     }), 404
                 
-                g.current_member = member
+                g.current_member = {
+                    "id": member.id
+                }
 
                 return fn(*args, **kwargs)
 

@@ -18,14 +18,12 @@ class Role(Enum):
         - Staff L1
         - Staff L2
         - Member
-        - Client 
     """
 
     ADMIN = "admin"
     STAFF_L1 = "staff_l1"
     STAFF_L2 = "staff_l2"
     MEMBER = "member"
-    CLIENT = "client"
 
 class UserStatus(Enum):
 
@@ -58,23 +56,29 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
     """  
         User Model
         - user_id
-        - fullName
+        - firstName
+        - lastName
         - email
         - phoneNo
+        - gender (Male/Female/Others)
         - role (Admin/Staff_L1/Staff_L2/Member/Client)
-        - address
+        - addressLineOne
+        - addressLineTwo
         - city
         - state
         - pincode
         - status (Active/Suspended/Banned)
-        - gender (Male/Female/Others)
         - password
     """
 
     __tablename__ = "users"
 
+    firstName: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
 
-    fullName: Mapped[str] = mapped_column(
+    lastName: Mapped[str] = mapped_column(
         String(255),
         nullable=False
     )
@@ -125,6 +129,7 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
         String(255),
         nullable=False
     )
+
     state: Mapped[str] = mapped_column(
         String(255),
         nullable=False
@@ -153,10 +158,16 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
     def to_dict(self):
 
         return {
-            "fullName": self.fullName,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
             "email": self.email,
             "phoneNo": self.phoneNo,
             "role": self.role,
-            "gender": self.gender
+            "gender": self.gender,
+            "address": self.addressLineOne + self.addressLineTwo,
+            "city": self.city,
+            "state": self.state,
+            "pincode": self.pincode,
+            "status": self.status
         }
     

@@ -9,7 +9,7 @@ def _send_async(app, msg):
 
         mail.send(msg)
 
-def send_welcome_mail(to_email, username, password, role):
+def send_welcome_mail(to_email: str, username: str, password: str, role: str):
 
     msg = Message(
         subject="Joining Confirmation - SIFFS",

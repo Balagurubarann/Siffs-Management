@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, declarative_mixin, declared_attr
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from uuid import UUID
 
