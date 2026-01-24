@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 class TransactionStatus(Enum):
 
-    """  
+    """
         Transaction Status
         - Pending
         - Success
@@ -25,7 +25,7 @@ class TransactionStatus(Enum):
 
 class TransactionType(Enum):
 
-    """  
+    """
         Transaction Type
         - ContinuousSavings
         - SeparateSavings
@@ -40,7 +40,7 @@ class TransactionType(Enum):
 
 class Transaction(Base, UUIDMixin):
 
-    """  
+    """
         Transaction Model
         - Holds every transaction
     """

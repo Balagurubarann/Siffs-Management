@@ -163,11 +163,12 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
             "lastName": self.lastName,
             "email": self.email,
             "phoneNo": self.phoneNo,
-            "role": self.role,
-            "gender": self.gender,
-            "address": self.addressLineOne + self.addressLineTwo,
+            "role": self.role.value if self.role else None,
+            "gender": self.gender.value if self.gender else None,
+            "addressLineOne": self.addressLineOne,
+            "addressLineTwo": self.addressLineTwo,
             "city": self.city,
             "state": self.state,
             "pincode": self.pincode,
-            "status": self.status
+            "status": self.status.value if self.status else None
         }

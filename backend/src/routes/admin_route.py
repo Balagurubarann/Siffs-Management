@@ -155,3 +155,33 @@ def add_user():
             "message": "Error happened adding new user",
             "success": False
         }), 500
+
+@adminRoute.route("/view-all", methods=["GET"])
+@required_user(Role.ADMIN)
+def view_all_profile():
+
+    """
+        View all users profile
+    """
+
+    try:
+
+        users = User.query.filter_by(
+            role=Role.MEMBER
+        )
+
+        data = [user.to_dict() for user in users]
+
+        return jsonify({
+            "message": "All profile fetched",
+            "users": data,
+            "success": True
+        }), 200
+
+    except Exception as Ex:
+
+        error("Error happened while viewing profile: ", Ex)
+        return jsonify({
+            "message": "Error happened viewing profile",
+            "success": False
+        }), 500

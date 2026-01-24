@@ -10,7 +10,7 @@ from decimal import Decimal
 
 class ProductType(Enum):
 
-    """  
+    """
         ProductType
         - fish
         - prawn
@@ -26,7 +26,7 @@ class Product(Base, UUIDMixin, TimeStampMixin, AuditMixin):
 
     """
     Docstring for Product
-    
+
     :var __tablename__: Description
     :vartype __tablename__: Literal['products']
     """
@@ -47,8 +47,7 @@ class Product(Base, UUIDMixin, TimeStampMixin, AuditMixin):
     productType: Mapped[ProductType] = mapped_column(
         ENUM(
             ProductType,
-            name="product_type_enum",
-            values_callable=lambda enum: [x.value for x in enum]
+            name="product_type_enum"
         ),
         nullable=False,
         default=ProductType.FISH
