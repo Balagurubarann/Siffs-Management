@@ -67,7 +67,6 @@ def login():
             "success": False
         }), 500
 
-
 # Logout Functionality
 @authRoute.route("/logout", methods=["POST"])
 def logout():

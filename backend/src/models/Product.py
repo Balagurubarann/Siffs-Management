@@ -34,7 +34,7 @@ class Product(Base, UUIDMixin, TimeStampMixin, AuditMixin):
     __tablename__ = "products"
 
     productNo: Mapped[str] = mapped_column(
-        String(64),
+        String(16),
         nullable=False,
         unique=True
     )

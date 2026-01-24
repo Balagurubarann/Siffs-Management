@@ -1,14 +1,14 @@
 # USER VERIFICATION
 
 from functools import wraps
-from src.utils import Level
 from flask import jsonify, g
 from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
 from src.models import User
 from logging import error, info
 from src.models.User import Role
+from typing import List
 
-def required_user(role: Role):
+def required_user(roles: List[Role]):
 
     def wrapper(fn):
 
@@ -30,10 +30,10 @@ def required_user(role: Role):
                         "success": False
                     }), 404
 
-                if user.role != role:
+                if user.role not in roles:
 
                     return jsonify({
-                        "message": f"Unauthorized! {role} login required",
+                        "message": f"Unauthorized access!",
                         "success": False
                     }), 401
 

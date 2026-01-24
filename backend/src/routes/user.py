@@ -3,20 +3,20 @@ from src.models import User, Account
 from src.extension import db
 from sqlalchemy.sql import or_
 from src.mailer.service import send_welcome_mail
-from src.utils import generate_password, generate_accno
+from src.utils import generate_password, generate_accno, verify_required_fields
 from werkzeug.security import generate_password_hash
 from src.middleware import required_user
 from logging import error, info
 from src.models.User import Role
 
-adminRoute = Blueprint(
-    "admin",
+userRoute = Blueprint(
+    "user",
     __name__,
-    url_prefix="/api/admin"
+    url_prefix="/api/user"
 )
 
-@adminRoute.route("/add/user", methods=["POST"])
-@required_user(Role.ADMIN)
+@userRoute.route("/add", methods=["POST"])
+@required_user([Role.ADMIN, Role.STAFF_L2])
 def add_user():
 
     """
@@ -62,15 +62,12 @@ def add_user():
             "pincode": pincode
         }
 
-        missing = [k for k, v in required_fields.items() if v is None]
+        [missing, message] = verify_required_fields(required_fields)
 
         if missing:
 
-            missed_fields = ",".join(missing)
-            message = f"Following fields are required: { missed_fields }"
-
             return jsonify({
-                "message": message,
+                "message": f"Following fields are required: { message }",
                 "success": False
             }), 400
 
@@ -81,7 +78,7 @@ def add_user():
             )
         )
 
-        if not existingPhoneOrEmail:
+        if existingPhoneOrEmail:
 
             return jsonify({
                 "message": "Phone number or Email already exists!",
@@ -149,39 +146,9 @@ def add_user():
 
     except Exception as Ex:
 
-        error("Error happened while adding: ", Ex)
+        error("Error happened while adding new user: ", Ex)
         db.session.rollback()
         return jsonify({
             "message": "Error happened adding new user",
-            "success": False
-        }), 500
-
-@adminRoute.route("/view-all", methods=["GET"])
-@required_user(Role.ADMIN)
-def view_all_profile():
-
-    """
-        View all users profile
-    """
-
-    try:
-
-        users = User.query.filter_by(
-            role=Role.MEMBER
-        )
-
-        data = [user.to_dict() for user in users]
-
-        return jsonify({
-            "message": "All profile fetched",
-            "users": data,
-            "success": True
-        }), 200
-
-    except Exception as Ex:
-
-        error("Error happened while viewing profile: ", Ex)
-        return jsonify({
-            "message": "Error happened viewing profile",
             "success": False
         }), 500
