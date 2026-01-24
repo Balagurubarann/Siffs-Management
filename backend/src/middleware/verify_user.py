@@ -29,14 +29,14 @@ def required_user(role: Role):
                         "message": "User not found! - Login required!",
                         "success": False
                     }), 404
-                
+
                 if user.role != role:
 
                     return jsonify({
                         "message": f"Unauthorized! {role} login required",
                         "success": False
                     }), 401
-                
+
                 g.current_user = {
                     "id": user.id,
                     "role": user.role
@@ -48,12 +48,11 @@ def required_user(role: Role):
 
             except Exception as Ex:
 
-                error("Something went wrong!", Ex)
+                error("Something went wrong!", exc_info=True)
                 return jsonify({
                     "message": "Something went wrong while verification",
                     "success": False
                 }), 500
         return decorator
-        
-    return wrapper
 
+    return wrapper

@@ -1,4 +1,4 @@
-"""  
+"""
     Module reponsible for account schema
 """
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -14,7 +14,7 @@ from decimal import Decimal
 
 class AccountStatus(Enum):
 
-    """  
+    """
         Account Status
         - Active
         - Frozen
@@ -27,11 +27,11 @@ class AccountStatus(Enum):
 
 class Account(Base, AuditMixin, TimeStampMixin, UUIDMixin):
 
-    """  
+    """
         Account Model
         - acc_no
         - holder_id
-        - status Active/Frozen/Blocked)
+        - status (Active/Frozen/Blocked)
         - balance
         - continuous_saving_balance
         - separate_saving_balance
@@ -81,7 +81,7 @@ class Account(Base, AuditMixin, TimeStampMixin, UUIDMixin):
         nullable=False,
         default=0.0
     )
-    
+
     credit_balance: Mapped[Decimal] = mapped_column(
         Numeric(15, 2),
         nullable=False,

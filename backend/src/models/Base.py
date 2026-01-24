@@ -1,5 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase
+from src.extension import db
 
-class Base(DeclarativeBase):
-
-    pass
+class Base(db.Model):
+    
+    __abstract__ = True

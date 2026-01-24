@@ -2,20 +2,22 @@
 <html lang="en">
 <body>
     
-    <h4>Welcome, {{ username }}!</h4>
-    <p>Thanks for joining <b>SIFFS</b> as a {{ role }}.</p>
+    <div class="container" style="max-width: 80%;">
+        <h4>Welcome, {{ username }}!</h4>
+        <p>Thanks for joining <b>SIFFS</b> as a {{ role }}.</p>
 
-    <p>
-        Your temporary password:
-    </p>
+        <p>
+            Your temporary password:
+        </p>
 
-    <p style="padding: 12px 24px; border-radius: 12px; background-color: rgba(255, 255, 255, .5); font-weight: 600;">
-        {{ password }}
-    </p>
+        <p style="padding: 12px 24px; border-radius: 12px; background-color: rgba(255, 255, 255, .5); font-weight: 600;">
+            {{ password }}
+        </p>
 
-    <p style="color: #ff0000">
-        ** Within 7 days, please change your password **
-    </p>
+        <p style="color: #ff0000">
+            ** Within 7 days, please change your password **
+        </p>
+    </div>
 
 </body>
 </html>

@@ -1,18 +1,19 @@
-"""  
+"""
     Module reponsible for user schema
 """
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy.dialects.postgresql import ENUM, UUID as PG_UUID
 from .Base import Base
 from .mixins.AuditMixin import AuditMixin
 from .mixins.TimeStampMixin import TimeStampMixin
 from .mixins.UUIDMixin import UUIDMixin
 from enum import Enum
+from uuid import UUID, uuid4
 
 class Role(Enum):
 
-    """  
+    """
         User Roles
         - Admin
         - Staff L1
@@ -27,7 +28,7 @@ class Role(Enum):
 
 class UserStatus(Enum):
 
-    """  
+    """
         User Current State
         - Active
         - Suspended
@@ -40,7 +41,7 @@ class UserStatus(Enum):
 
 class Gender(Enum):
 
-    """  
+    """
         User Genders
         - Male
         - Female
@@ -53,7 +54,7 @@ class Gender(Enum):
 
 class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
 
-    """  
+    """
         User Model
         - user_id
         - firstName
@@ -170,4 +171,3 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
             "pincode": self.pincode,
             "status": self.status
         }
-    

@@ -12,4 +12,4 @@ def generate_accno() -> str:
     prefix = "614809"
     suffix = "".join(choice(digits) for _ in range(7))
 
-    return (prefix + suffix)
+    return prefix + suffix
