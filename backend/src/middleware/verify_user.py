@@ -4,16 +4,11 @@ from functools import wraps
 from src.utils import Level
 from flask import jsonify, g
 from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
-from src.model import User
+from src.models import User
 from logging import error, info
+from src.models.User import Role
 
-staffLevel = {
-    "L1": 1,
-    "L2": 2,
-    "L3": 3
-}
-
-def least_staff_required(level: Level):
+def required_user(role: Role):
 
     def wrapper(fn):
 
@@ -23,79 +18,42 @@ def least_staff_required(level: Level):
             try:
 
                 verify_jwt_in_request()
-                staffId = get_jwt_identity()
 
-                staff = User.query.get(staffId)
+                userId = get_jwt_identity()
 
-                if not staff:
+                user = User.query.get(userId)
+
+                if not user:
 
                     return jsonify({
-                        "message": "Staff not found! - Login required!",
+                        "message": "User not found! - Login required!",
                         "success": False
                     }), 404
-
-                if staffLevel[staff.level.value] < staffLevel[level]:
+                
+                if user.role != role:
 
                     return jsonify({
-                        "message": f"Staff level must be atleast {level}",
+                        "message": f"Unauthorized! {role} login required",
                         "success": False
                     }), 401
                 
-                g.current_staff = {
-                    "id": staff.id,
-                    "role": staff.role
+                g.current_user = {
+                    "id": user.id,
+                    "role": user.role
                 }
 
-                return fn(*args, **kwargs)
-
-
-            except Exception as Ex:
-
-                return jsonify({
-                    "message": "Something went wrong while verification",
-                    "success": False
-                }), 500
-
-        return decorator
-    
-    return wrapper
-
-def member_required():
-
-    def wrapper(fn):
-
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-
-            try:
-
-                verify_jwt_in_request()
-                memberId = get_jwt_identity()
-
-                member = Member.query.get(memberId)
-
-                if not member:
-
-                    return jsonify({
-                        "message": "Member not found! - Login required!",
-                        "success": False
-                    }), 404
-                
-                g.current_member = {
-                    "id": member.id
-                }
+                info("User verified!")
 
                 return fn(*args, **kwargs)
 
             except Exception as Ex:
 
-                error(Ex)
-
+                error("Something went wrong!", Ex)
                 return jsonify({
                     "message": "Something went wrong while verification",
                     "success": False
                 }), 500
-            
         return decorator
-    
+        
     return wrapper
+

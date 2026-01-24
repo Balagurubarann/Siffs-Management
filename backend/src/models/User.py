@@ -21,8 +21,8 @@ class Role(Enum):
     """
 
     ADMIN = "admin"
-    STAFF_L1 = "staff_l1"
-    STAFF_L2 = "staff_l2"
+    STAFF_L1 = "s1"
+    STAFF_L2 = "s2"
     MEMBER = "member"
 
 class UserStatus(Enum):
