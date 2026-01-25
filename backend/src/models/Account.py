@@ -92,3 +92,15 @@ class Account(Base, AuditMixin, TimeStampMixin, UUIDMixin):
         "User",
         foreign_keys=[holder_id]
     )
+
+    def to_dict(self):
+
+        return {
+            "acc_no": self.acc_no,
+            "holder_id": self.holder_id,
+            "status": self.status,
+            "balance": self.balance,
+            "separate_saving_balance": self.separate_savings_balance,
+            "continuous_saving_balance": self.continuous_savings_balance,
+            "credit_balance": self.credit_balance
+        }

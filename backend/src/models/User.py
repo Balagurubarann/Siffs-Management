@@ -170,5 +170,6 @@ class User(Base, UUIDMixin, TimeStampMixin, AuditMixin):
             "city": self.city,
             "state": self.state,
             "pincode": self.pincode,
-            "status": self.status.value if self.status else None
+            "status": self.status.value if self.status else None,
+            "dateOfJoin": self.created_at
         }

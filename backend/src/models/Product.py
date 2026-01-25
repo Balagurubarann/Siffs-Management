@@ -67,3 +67,14 @@ class Product(Base, UUIDMixin, TimeStampMixin, AuditMixin):
         Numeric(12, 2),
         nullable=False
     )
+
+    def to_dict(self):
+
+        return {
+            "productNo": self.productNo,
+            "productName": self.productName,
+            "productType": self.productType,
+            "description": self.description,
+            "inventory": self.inventory,
+            "price": self.price
+        }

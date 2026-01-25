@@ -27,6 +27,8 @@ def add_user():
 
         creatorId = g.current_user["id"]
 
+        creatorRole = g.current_user["role"]
+
         if not creatorId:
 
             return jsonify({
@@ -70,6 +72,13 @@ def add_user():
                 "message": f"Following fields are required: { message }",
                 "success": False
             }), 400
+        
+        if creatorRole == Role.STAFF_L2 and role == Role.ADMIN:
+
+            return jsonify({
+                "message": "Unauthorized! Admin Login required",
+                "success": False
+            }), 401
 
         existingPhoneOrEmail = db.session.query(User).filter(
             or_(
