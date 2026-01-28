@@ -7,7 +7,7 @@ from src.utils import generate_password, generate_accno, verify_required_fields
 from werkzeug.security import generate_password_hash
 from src.middleware import required_user
 from logging import error, info
-from src.models.User import Role
+from src.models.User import Role, UserStatus
 
 userRoute = Blueprint(
     "user",
@@ -164,11 +164,35 @@ def add_user():
 
 
 @userRoute.route('/status/suspend/<string:id>', methods=['POST'])
+@required_user([Role.ADMIN])
 def suspend_user(id: str):
 
     try:
 
-        pass
+        if not id:
+
+            return jsonify({
+                "message": "No Id found",
+                "success": False
+            }), 400
+        
+        user = User.query.get(id)
+
+        if not user:
+
+            return jsonify({
+                "message": "No user found",
+                "success": False
+            }), 404
+        
+        user.status = UserStatus.SUSPENDED
+
+        db.session.commit()
+
+        return jsonify({
+            "message": "User suspended",
+            "success": True
+        }), 200
 
     except Exception as Ex:
 
