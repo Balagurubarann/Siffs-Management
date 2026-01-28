@@ -161,3 +161,20 @@ def add_user():
             "message": "Error happened adding new user",
             "success": False
         }), 500
+
+
+@userRoute.route('/status/suspend/<string:id>', methods=['POST'])
+def suspend_user(id: str):
+
+    try:
+
+        pass
+
+    except Exception as Ex:
+
+        error("Error happened while try to suspend user: ", Ex)
+        db.session.rollback()
+        return jsonify({
+            "message": "Error happened while try to suspend user",
+            "success": False
+        }), 500
